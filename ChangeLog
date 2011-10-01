@@ -1,0 +1,220 @@
+2010-06-12  Nick Bargnesi  <nick@den-4.com>
+
+	Applied patch for bug #592201.
+
+2010-06-10  Nick Bargnesi  <nick@den-4.com>
+
+	Merge the newbuild branch into trunk.
+
+2010-06-04  Nick Bargnesi  <nick@den-4.com>
+
+	Update ChangeLog.
+
+2010-06-03  Nick Bargnesi  <nick@den-4.com>
+
+	Updating NEWS, README, and TODO.
+
+2010-06-03  Nick Bargnesi  <nick@den-4.com>
+
+	Migrating CONVENTIONS.
+
+2010-06-03  Nick Bargnesi  <nick@den-4.com>
+
+	Removed old spec in favor of master, SuSE, and Fedora/CentOS versions.
+
+2010-06-01  Nick Bargnesi  <nick@den-4.com>
+
+	Update spec %files directive, pkg-config template, bump NEWS, and ChangeLog.
+
+2010-05-26  Nick Bargnesi  <nick@den-4.com>
+
+	Make @libdir@ if it doesn't exist.
+
+2010-05-26  Nick Bargnesi  <nick@den-4.com>
+
+	Add includeantruntime to javac task.
+
+2010-05-26  nick  <nick@liszt>
+
+	Updating to new build baseline.
+
+2010-05-23  nick  <nick@liszt>
+
+	Fix for bug #570200, correct handling of Close and Moved OR'd masks.
+
+2010-02-03  Nick Bargnesi  <nick@den-4.com>
+
+	Bump ChangeLog.
+
+2010-01-06  Nick Bargnesi  <nick@den-4.com>
+
+	Declare add/remove watch methods as public, as was intended.
+
+2010-01-06  Nick Bargnesi  <nick@den-4.com>
+
+	Bug #503359: removed AWT native interface include.
+
+2009-12-11  Nick Bargnesi  <nick@den-4.com>
+
+	Bump.
+
+2009-12-11  Nick Bargnesi  <nick@den-4.com>
+
+	These modifications should have been included in the last revision.
+
+2009-12-11  Nick Bargnesi  <nick@den-4.com>
+
+	Rework load testing capabilities to sufficiently pummel the system with events.
+
+2009-12-11  Nick Bargnesi  <nick@den-4.com>
+
+	Remove a sysout.
+
+2009-12-11  Nick Bargnesi  <nick@den-4.com>
+
+	Fix arrival statistics and date formatting.  Improve the setting of contextual
+	names by using concat methods.
+
+2009-12-11  Nick Bargnesi  <nick@den-4.com>
+
+	Adding a Natural Docs stylesheet, to match the Javadoc style.
+
+2009-12-09  Nick Bargnesi  <nick@den-4.com>
+
+	Load test updates, one bug fix.
+
+2009-12-09  Nick Bargnesi  <nick@den-4.com>
+
+	Adding load test utilities.
+
+2009-12-09  Nick Bargnesi  <nick@den-4.com>
+
+	Unit tests and bug fixes.
+
+2009-12-09  Nick Bargnesi  <nick@den-4.com>
+
+	The javadoc stylesheet.
+
+2009-12-09  Nick Bargnesi  <nick@den-4.com>
+
+	Documentation updates, build flags, and build tweaks, in preparation for 2.0
+	beta.
+
+2009-12-08  Nick Bargnesi  <nick@den-4.com>
+
+	Initial test stubs for Inotify and MonitorService.
+
+2009-12-08  Nick Bargnesi  <nick@den-4.com>
+
+	More bits of documentation.
+
+2009-12-08  Nick Bargnesi  <nick@den-4.com>
+
+	Refactoring, documentation.
+
+2009-12-08  Nick Bargnesi  <nick@den-4.com>
+
+	Adding bits of missing documentation.
+
+2009-12-02  Nick Bargnesi  <nick@den-4.com>
+
+	Incorporating statistical calculations.
+
+2009-12-02  Nick Bargnesi  <nick@den-4.com>
+
+	Monitor service updates.
+
+2009-09-25  Nick Bargnesi  <nick@den-4.com>
+
+	Adding a service-centric interface to inotify.
+
+2009-09-16  Nick Bargnesi  <nick@den-4.com>
+
+	Documentation updates.
+
+2009-09-16  Nick Bargnesi  <nick@den-4.com>
+
+	Use user watch limit exceptions as causes for inotify exceptions thrown on
+	add_watch invocations.  Provide cause constructors in InotifyException to
+	eliminate the need for calls to initCause().
+
+2009-09-16  Nick Bargnesi  <nick@den-4.com>
+
+	Throw user watch limit exceptions from JNI add_watch.
+
+2009-08-05  Nick Bargnesi  <nick@den-4.com>
+
+	Daemonize the thread that services the inotify queue.
+
+2009-07-28  Nick Bargnesi  <nick@den-4.com>
+
+	Improve toString(), including more consistency.
+
+2009-07-28  Nick Bargnesi  <nick@den-4.com>
+
+	Change the generated JNI header to jni-header.h.
+
+2009-07-23  Nick Bargnesi  <nick@den-4.com>
+
+	Adding 256 color support to tutorial class, from terminals.
+
+2009-07-23  Nick Bargnesi  <nick@den-4.com>
+
+	Adding a tutorial, which will 'interact' with the user, demoing the provided
+	functionality.
+
+2009-07-23  Nick Bargnesi  <nick@den-4.com>
+
+	Change main class to 'Tutorial'.
+
+2009-07-23  Nick Bargnesi  <nick@den-4.com>
+
+	Adding a native inotify subclass, Inotify, in equivalent functionality to what
+	the inotify API provides including two important pieces of functionality.
+
+2009-07-23  Nick Bargnesi  <nick@den-4.com>
+
+	Documentation updates only.
+
+2009-07-23  Nick Bargnesi  <nick@den-4.com>
+
+	Refactor fileDescriptor -> watchDescriptor and correct use.
+
+2009-07-23  Nick Bargnesi  <nick@den-4.com>
+
+	Include method to return bitwise or of mask values.
+
+2009-07-23  Nick Bargnesi  <nick@den-4.com>
+
+	Deleting.
+
+2009-07-22  Nick Bargnesi  <nick@den-4.com>
+
+	Modify toString override to better dispaly event data contents.
+
+2009-07-14  Nick Bargnesi  <nick@den-4.com>
+
+	Bug and documentation fix for the Watcher class, starting migration of Main
+	class to demo class.
+
+2009-07-14  Nick Bargnesi  <nick@den-4.com>
+
+	Added TODO to handle exceptions created calling into Java from JNI.
+
+2009-07-11  Nick Bargnesi  <nick@den-4.com>
+
+	Documentation, reformatting.
+
+2009-07-11  Nick Bargnesi  <nick@den-4.com>
+
+	Added assert.h, migrate return outside of switch.
+
+2009-07-11  Nick Bargnesi  <nick@den-4.com>
+
+	Adding a thread-safe source annotation, for describing thread-safe code,
+	retained on source only.
+
+2009-07-08  Nick Bargnesi  <nick@den-4.com>
+
+	Initial import.
+

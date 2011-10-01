@@ -1,0 +1,24 @@
+body { background-color: #d3d7cf; color:#2e3436 }
+
+/* Headings */
+h1 { font-size: 125% }
+
+a:link    { font-family: monospace; color: #204a87 }
+a:visited { font-family: monospace; color: #888a85 }
+
+.TableHeadingColor     { background: #2e3436; color:#eeeeec }
+.TableSubHeadingColor  { background: #ef2929; color:#eeeeec }
+.TableRowColor         { background: #eeeeec; color:#2e3436 }
+
+.FrameTitleFont   { font-size: 100%; font-family: sans-serif; color:#2e3436 }
+.FrameHeadingFont { font-size:  90%; font-family: sans-serif; color:#2e3436 }
+.FrameItemFont    { font-size:  90%; font-family: sans-serif; color:#2e3436 }
+
+.NavBarCell1    { background-color:#555753; color:#eeeeec}
+.NavBarCell1Rev { background-color:#a40000; color:#eeeeec}
+.NavBarFont1    { font-family: monospace; color:#eeeeec;}
+.NavBarFont1Rev { font-family: monospace; color:#eeeeec;color:#eeeeec;}
+
+.NavBarCell2    { font-family: monospace; background-color:#babdb6; color:#2e3436}
+.NavBarCell3    { font-family: monospace; background-color:#eeeeec; color:#2e3436}
+

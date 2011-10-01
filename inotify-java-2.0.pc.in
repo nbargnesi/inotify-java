@@ -1,0 +1,8 @@
+prefix=@prefix@
+libdir=@libdir@
+
+Name: inotify-java
+Description: inotify library for Java.
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir} -linotify-java
+

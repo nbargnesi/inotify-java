@@ -1,0 +1,56 @@
+<?xml version='1.0'?>
+
+<project name='inotify-java' default='build' basedir='.'>
+
+    <target name='compile'
+        description='compiles the source'>
+        <javac srcdir='classes' includeantruntime='false'
+            debug='on'
+            debuglevel='lines,vars,source'/>
+        <javac srcdir='test'
+            debug='on'
+            debuglevel='lines,vars,source'
+            classpath='classes:../../lib/junit4-4.8.2.jar'/>
+    </target>
+
+    <target name='build' depends='compile'
+        description='creates a jar'>
+        <jar destfile='${ant.project.name}-${version}.jar' basedir='classes'/>
+    </target>
+
+    <target name='apidoc'
+        description='generates API documentation'>
+        <javadoc sourcepath='classes'
+            destdir='apidoc'
+            author='true'
+            version='true'
+            stylesheetfile='stylesheet.css'/>
+    </target>
+
+    <target name='clean'
+        description='deletes build artifacts'>
+        <delete
+            file='${ant.project.name}-${version}.jar'>
+            <fileset dir='classes' includes='**/*.class'/>
+            <fileset dir='test' includes='**/*.class'/>
+        </delete>
+    </target>
+
+    <target name='test' depends='compile'
+        description='runs test cases'>
+        <junit printsummary='withOutAndErr' haltonfailure='yes'>
+            <formatter type='plain' usefile='no'/>
+            <classpath>
+                <pathelement path='classes'/>
+                <pathelement path='test'/>
+                <pathelement path='../../lib/junit4-4.8.2.jar'/>
+            </classpath>
+            <batchtest fork='yes'>
+                <fileset dir='test'>
+                    <include name='**/*.java'/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+</project>

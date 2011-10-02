@@ -7,6 +7,7 @@ all-local: $(CLASSES)
 clean-local: clean-local-check
 .PHONY: clean-local-check
 clean-local-check:
+	@@ANT@ clean
 	-find -name *.class -exec rm {} \;
 	-rm *.jar
 

@@ -722,11 +722,7 @@ CPPFLAGS
 CCC
 CC
 CFLAGS
-LDFLAGS
-LIBS
-CPPFLAGS
-CPP
-CPPFLAGS'
+CPP'
 
 
 # Initialize some variables set by options.

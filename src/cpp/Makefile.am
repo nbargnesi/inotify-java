@@ -20,7 +20,7 @@ JAVA_DIR = ../java/classes
 JAVA_H_SOURCE = $(JAVA_DIR)/com/den_4/inotify_java/NativeInotify.java
 JAVA_H_CLASS = com.den_4.inotify_java.NativeInotify
 
-BUILT_SOURCES = $(JAVA_H) $(SO_FILE)
+BUILT_SOURCES = $(JAVA_H) $(SO_FILE) symlink
 
 $(SO_FILE): typedefs.h \
 	inotify-interface.h \

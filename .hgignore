@@ -6,11 +6,11 @@ inotify-java-2.0.pc
 src/Makefile
 src/cpp/Makefile
 src/cpp/jni-header.h
-src/cpp/libinotify-java.so.2.0.3
 src/java/Makefile
-src/java/inotify-java-2.0.3.jar
 stamp-h1
+autom4te.cache
 
 syntax: glob
 **/*.class
 src/cpp/*.so*
+src/java/*.jar

@@ -13,3 +13,4 @@ stamp-h1
 
 syntax: glob
 **/*.class
+src/cpp/*.so*

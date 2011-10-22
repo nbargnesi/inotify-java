@@ -1,6 +1,3 @@
-inotify-java NEWS
-Copyright (C) 2010, Den 4 Software
-
 Version 2.0.3
 
 # Delayed starting reader thread in ConcurrentReader (requires subclasses to

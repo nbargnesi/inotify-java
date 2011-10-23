@@ -32,7 +32,6 @@ import com.den_4.inotify_java.exceptions.InvalidWatchDescriptorException;
 import com.den_4.inotify_java.exceptions.SystemLimitException;
 import com.den_4.inotify_java.exceptions.UserInstanceLimitException;
 import com.den_4.inotify_java.exceptions.UserWatchLimitException;
-on;
 
 /**
  * This class serves as the base class for all Inotify types, providing a bridge

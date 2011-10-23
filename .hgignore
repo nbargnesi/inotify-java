@@ -13,4 +13,5 @@ autom4te.cache
 syntax: glob
 **/*.class
 src/cpp/*.so*
+src/cpp/*.so*
 src/java/*.jar

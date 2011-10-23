@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -8,11 +8,11 @@
  *
  * inotify-java is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with inotify-java.  If not, see <http://www.gnu.org/licenses/>.
+ * along with inotify-java. If not, see <http://www.gnu.org/licenses/>.
  *
  * File: Inotify.java
  * Project: inotify-java
@@ -20,6 +20,8 @@
  * Author: Nick Bargnesi
  */
 package com.den_4.inotify_java;
+
+import static java.lang.System.load;
 
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
@@ -30,6 +32,7 @@ import com.den_4.inotify_java.exceptions.InvalidWatchDescriptorException;
 import com.den_4.inotify_java.exceptions.SystemLimitException;
 import com.den_4.inotify_java.exceptions.UserInstanceLimitException;
 import com.den_4.inotify_java.exceptions.UserWatchLimitException;
+on;
 
 /**
  * This class serves as the base class for all Inotify types, providing a bridge
@@ -72,18 +75,20 @@ public abstract class NativeInotify {
                 loadLibrary(null);
             fileDescriptor = init();
         } catch (UnsatisfiedLinkError e) {
-            InotifyException ie = new InotifyException("unsatisfied link", e);
+            final String msg = "unsatisfied link";
+            InotifyException ie = new InotifyException(msg, e);
             throw ie;
         } catch (InsufficientKernelMemoryException e) {
-            InotifyException ie = new InotifyException(
-                    "kernel memory exception", e);
+            final String msg = "kernel memory exception";
+            InotifyException ie = new InotifyException(msg, e);
             throw ie;
         } catch (SystemLimitException e) {
-            InotifyException ie = new InotifyException("system limit reached",
-                    e);
+            final String msg = "system limit reached";
+            InotifyException ie = new InotifyException(msg, e);
             throw ie;
         } catch (UserInstanceLimitException e) {
-            InotifyException ie = new InotifyException("user limit reached", e);
+            final String msg = "user limit reached";
+            InotifyException ie = new InotifyException(msg, e);
             throw ie;
         }
         fdActive = true;
@@ -111,8 +116,9 @@ public abstract class NativeInotify {
     }
 
     /**
-     * Loads the native library specified by the filename. Supplying a {@code
-     * filename} value of {@code null} will result in the library being loaded
+     * Loads the native library specified by the filename. Supplying a
+     * {@code filename} value of {@code null} will result in the library being
+     * loaded
      * using the library paths provided to the virtual machine.
      * <p>
      * This method is {@link com.den_4.inotify_java.ThreadSafe thread-safe}.
@@ -129,9 +135,9 @@ public abstract class NativeInotify {
         lock.lock();
         try {
             if (filename == null)
-                System.loadLibrary("inotify-java"); //$NON-NLS-1$
+                loadLibrary("inotify-java"); //$NON-NLS-1$
             else
-                System.load(filename);
+                load(filename);
             nativeLibLoaded = true;
         } finally {
             lock.unlock();
@@ -169,15 +175,15 @@ public abstract class NativeInotify {
     }
 
     /**
-     * Returns {@code true} if this Inotify instance has been destroyed, {@code
-     * false} if it is active.
+     * Returns {@code true} if this Inotify instance has been destroyed,
+     * {@code false} if it is active.
      * <p>
      * This method is thread-safe and guarantees the returned value is accurate
      * at the time of invocation.
      * </p>
      * 
-     * @return {@code true} if this Inotify instance has been destroyed, {@code
-     * false} if it is active
+     * @return {@code true} if this Inotify instance has been destroyed,
+     * {@code false} if it is active
      * @see #isActive()
      * @see #destroy()
      */

@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -8,11 +8,11 @@
  *
  * inotify-java is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with inotify-java.  If not, see <http://www.gnu.org/licenses/>.
+ * along with inotify-java. If not, see <http://www.gnu.org/licenses/>.
  *
  * File: Event.java
  * Project: inotify-java
@@ -123,15 +123,18 @@ public enum Event {
     /**
      * Representation of every {@code Event} enumeration.
      */
-    All(Access.value | Close.value | Create.value | Delete.value | Delete_Self.value | Metadata.value | Modify.value | Move_Self.value
+    All(Access.value | Close.value | Create.value | Delete.value
+            | Delete_Self.value | Metadata.value | Modify.value
+            | Move_Self.value
             | Moved.value | Open.value);
 
     /** Unique value associated with each enumeration. */
     private final int value;
 
-    private final static Map<String, Event> STRINGTOENUM = new HashMap<String, Event>();
+    private final static Map<String, Event> STRINGTOENUM;
 
     static {
+        STRINGTOENUM = new HashMap<String, Event>();
         for (Event e : values())
             STRINGTOENUM.put(e.toString(), e);
     }
@@ -167,8 +170,9 @@ public enum Event {
     }
 
     /**
-     * Returns {@code true} if the specified event is a directory event, {@code
-     * false} otherwise. Events that qualify as directory events are defined by
+     * Returns {@code true} if the specified event is a directory event,
+     * {@code false} otherwise. Events that qualify as directory events are
+     * defined by
      * their ability to occur for files in a watched directory. The following
      * events are considered <em>directory events</em>:
      * <ol>
@@ -187,8 +191,8 @@ public enum Event {
      * </ol>
      * 
      * @param e Event to test
-     * @return {@code true} if event {@code e} is a directory event, {@code
-     * false} otherwise
+     * @return {@code true} if event {@code e} is a directory event,
+     * {@code false} otherwise
      * @since Version 2
      */
     public static boolean isDirectoryEvent(Event e) {
@@ -204,15 +208,15 @@ public enum Event {
      * @return Event
      */
     public static Event fromValue(int value) {
-        for (Event e : values())
-            if (e.value == value)
-                return e;
+        for (Event e : values()) {
+            if (e.value == value) return e;
+        }
         throw new IllegalArgumentException("bad event value: " + value);
     }
 
     /**
-     * Returns {@code true} if the specified event is set in the mask, {@code
-     * false} otherwise.
+     * Returns {@code true} if the specified event is set in the mask,
+     * {@code false} otherwise.
      * 
      * @param e Event to be evaluated as the first operand in:
      * <tt>e.value & mask</tt>
@@ -229,27 +233,32 @@ public enum Event {
     /**
      * Returns {@code true} if the specified event mask is set in the mask,
      * {@code false} otherwise.
-     *
+     * 
      * @param event Event to be evaluated as the first operand in:
      * <tt>event & mask</tt>
      * @param mask Mask to be evaluated as the second operand in:
      * <tt>event & mask</tt>
      * @return {@code true} if {@code event} is set in {@code mask},
      * {@code false} otherwise
-    */
+     */
     public static boolean isSet(int event, int mask) {
-        if (event == (event & mask))
+        if (event == (event & mask)) {
             return true;
-        if (event == Close.value)
+        }
+
+        if (event == Close.value) {
             if (Close_No_Write.value == (Close_No_Write.value & mask))
                 return true;
             else if (Close_Write.value == (Close_Write.value & mask))
                 return true;
-        if (event == Moved.value)
+        }
+
+        if (event == Moved.value) {
             if (Moved_From.value == (Moved_From.value & mask))
                 return true;
             else if (Moved_To.value == (Moved_To.value & mask))
                 return true;
+        }
         return false;
     }
 
@@ -262,9 +271,9 @@ public enum Event {
     public static Event[] maskToEvents(int mask) {
         List<Event> evs = new ArrayList<Event>();
 
-        for (Event e : values())
-            if (e.value == (e.value & mask))
-                evs.add(e);
+        for (Event e : values()) {
+            if (e.value == (e.value & mask)) evs.add(e);
+        }
 
         return evs.toArray(new Event[0]);
     }
@@ -277,10 +286,11 @@ public enum Event {
      */
     public static int eventsToMask(Event... events) {
         int mask = 0;
-        
-        for (Event e : events)
+
+        for (Event e : events) {
             mask |= e.value;
-        
+        }
+
         return mask;
     }
 }

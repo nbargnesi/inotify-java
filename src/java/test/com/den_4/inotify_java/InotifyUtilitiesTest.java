@@ -1,5 +1,5 @@
 /**
- * Copyright © 2010 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2010-2011 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -53,7 +53,7 @@ public class InotifyUtilitiesTest {
         assertTrue(testDir.mkdir());
         try {
             Queue<String> paths =
-                InotifyUtilities.getPaths(testDir.getCanonicalPath());
+                    InotifyUtilities.getPaths(testDir.getCanonicalPath());
             assertTrue(1 == paths.size());
             File subDir1 = new File(testDir + "/subdir1");
             subDir1.deleteOnExit();

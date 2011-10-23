@@ -1,5 +1,5 @@
 /**
- * Copyright © 2010 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2010-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -8,11 +8,11 @@
  *
  * inotify-java is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with inotify-java.  If not, see <http://www.gnu.org/licenses/>.
+ * along with inotify-java. If not, see <http://www.gnu.org/licenses/>.
  *
  * File: InotifyUtilities.java
  * Project: inotify-java
@@ -128,8 +128,8 @@ public final class InotifyUtilities {
      */
     public static void setMaximumQueuedEvents(final long newmax) {
         if (!isMaximumQueuedEventsTunable())
-            throw new PermissionDenied("permission denied: " +
-                    MAX_QUEUED_EVENTS);
+            throw new PermissionDenied("permission denied: "
+                    + MAX_QUEUED_EVENTS);
         final File procEntry = new File(MAX_QUEUED_EVENTS);
         write(procEntry, valueOf(newmax));
     }
@@ -260,5 +260,5 @@ public final class InotifyUtilities {
         }
         return -1L;
     }
-    
+
 }

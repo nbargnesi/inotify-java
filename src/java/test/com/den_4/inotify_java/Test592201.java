@@ -1,5 +1,5 @@
 /**
- * Copyright © 2010 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2010-2011 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,7 +21,8 @@
  */
 package com.den_4.inotify_java;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

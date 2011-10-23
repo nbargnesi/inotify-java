@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -8,11 +8,11 @@
  *
  * inotify-java is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with inotify-java.  If not, see <http://www.gnu.org/licenses/>.
+ * along with inotify-java. If not, see <http://www.gnu.org/licenses/>.
  *
  * File: EventModifier.java
  * Project: inotify-trunk
@@ -52,9 +52,10 @@ public enum EventModifier {
     /** Unique value associated with each enumeration. */
     private final int value;
 
-    private final static Map<String, EventModifier> STRINGTOENUM = new HashMap<String, EventModifier>();
+    private final static Map<String, EventModifier> STRINGTOENUM;
 
     static {
+        STRINGTOENUM = new HashMap<String, EventModifier>();
         for (EventModifier e : values())
             STRINGTOENUM.put(e.toString(), e);
     }
@@ -96,9 +97,9 @@ public enum EventModifier {
      * @return event modifier
      */
     public static EventModifier fromValue(int value) {
-        for (EventModifier e : values())
-            if (e.value == value)
-                return e;
+        for (EventModifier e : values()) {
+            if (e.value == value) return e;
+        }
         throw new IllegalArgumentException("bad event modifier value: " + value);
     }
 
@@ -129,9 +130,9 @@ public enum EventModifier {
     public static EventModifier[] maskToEventModifiers(int mask) {
         List<EventModifier> mods = new ArrayList<EventModifier>();
 
-        for (EventModifier m : values())
-            if (m.value == (m.value & mask))
-                mods.add(m);
+        for (EventModifier m : values()) {
+            if (m.value == (m.value & mask)) mods.add(m);
+        }
 
         return mods.toArray(new EventModifier[0]);
     }
@@ -145,8 +146,9 @@ public enum EventModifier {
     public static int eventModifiersToMask(EventModifier... eventModifiers) {
         int mask = 0;
 
-        for (EventModifier m : eventModifiers)
+        for (EventModifier m : eventModifiers) {
             mask |= m.value;
+        }
 
         return mask;
     }

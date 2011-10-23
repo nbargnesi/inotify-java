@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -8,11 +8,11 @@
  *
  * inotify-java is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with inotify-java.  If not, see <http://www.gnu.org/licenses/>.
+ * along with inotify-java. If not, see <http://www.gnu.org/licenses/>.
  * 
  * File: UserWatchLimitException.java
  * Project: inotify-java
@@ -46,7 +46,7 @@ public class UserWatchLimitException extends InotifyException {
      * initialized by a call to {@link #initCause(Throwable)}.
      * 
      * @param message the detail message. The detail message is saved for later
-     *        retrieval by the {@link #getMessage()} method.
+     * retrieval by the {@link #getMessage()} method.
      */
     public UserWatchLimitException(String message) {
         super(message);

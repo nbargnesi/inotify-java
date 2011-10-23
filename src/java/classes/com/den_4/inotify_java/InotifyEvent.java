@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -8,11 +8,11 @@
  *
  * inotify-java is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with inotify-java.  If not, see <http://www.gnu.org/licenses/>.
+ * along with inotify-java. If not, see <http://www.gnu.org/licenses/>.
  *
  * File: InotifyEvent.java
  * Project: inotify-java
@@ -93,8 +93,9 @@ public class InotifyEvent extends EventObject {
         super(Integer.valueOf(watchDescriptor));
         this.mask = mask;
         this.name = name;
-    }    /**
+    }
 
+    /**
      * Creates a new InotifyEvent from the specific watch descriptor, mask,
      * cookie, and name value.
      * 
@@ -189,8 +190,8 @@ public class InotifyEvent extends EventObject {
      * {@link com.den_4.inotify_java.enums.Event#Close_No_Write} is set.
      * 
      * @return {@code true} if
-     * {@link com.den_4.inotify_java.enums.Event#Close_No_Write} is set, {@code
-     * false} otherwise
+     * {@link com.den_4.inotify_java.enums.Event#Close_No_Write} is set,
+     * {@code false} otherwise
      */
     public boolean isCloseNoWrite() {
         return (Event.isSet(Event.Close_No_Write, mask));
@@ -201,8 +202,8 @@ public class InotifyEvent extends EventObject {
      * {@link com.den_4.inotify_java.enums.Event#Close_Write} is set.
      * 
      * @return {@code true} if
-     * {@link com.den_4.inotify_java.enums.Event#Close_Write} is set, {@code
-     * false} otherwise
+     * {@link com.den_4.inotify_java.enums.Event#Close_Write} is set,
+     * {@code false} otherwise
      */
     public boolean isCloseWrite() {
         return (Event.isSet(Event.Close_Write, mask));
@@ -246,8 +247,8 @@ public class InotifyEvent extends EventObject {
      * {@link com.den_4.inotify_java.enums.Event#Delete_Self} is set.
      * 
      * @return {@code true} if
-     * {@link com.den_4.inotify_java.enums.Event#Delete_Self} is set, {@code
-     * false} otherwise
+     * {@link com.den_4.inotify_java.enums.Event#Delete_Self} is set,
+     * {@code false} otherwise
      */
     public boolean isDeleteSelf() {
         return (Event.isSet(Event.Delete_Self, mask));
@@ -281,8 +282,8 @@ public class InotifyEvent extends EventObject {
      * {@link com.den_4.inotify_java.enums.Event#Move_Self} is set.
      * 
      * @return {@code true} if
-     * {@link com.den_4.inotify_java.enums.Event#Move_Self} is set, {@code
-     * false} otherwise
+     * {@link com.den_4.inotify_java.enums.Event#Move_Self} is set,
+     * {@code false} otherwise
      */
     public boolean isMoveSelf() {
         return (Event.isSet(Event.Move_Self, mask));
@@ -293,8 +294,8 @@ public class InotifyEvent extends EventObject {
      * {@link com.den_4.inotify_java.enums.Event#Moved_From} is set.
      * 
      * @return {@code true} if
-     * {@link com.den_4.inotify_java.enums.Event#Moved_From} is set, {@code
-     * false} otherwise
+     * {@link com.den_4.inotify_java.enums.Event#Moved_From} is set,
+     * {@code false} otherwise
      */
     public boolean isMovedFrom() {
         return (Event.isSet(Event.Moved_From, mask));
@@ -349,8 +350,8 @@ public class InotifyEvent extends EventObject {
      * Returns {@code true} if the event is about a directory, {@code false}
      * otherwise.
      * 
-     * @return boolean {@code true} if the event concerns a directory, {@code
-     * false} otherwise
+     * @return boolean {@code true} if the event concerns a directory,
+     * {@code false} otherwise
      * @see com.den_4.inotify_java.enums.EventModifier#Is_Directory
      */
     public boolean aboutDirectory() {

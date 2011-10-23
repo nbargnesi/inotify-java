@@ -1,5 +1,5 @@
 /**
- * Copyright © 2010 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2010-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -8,11 +8,11 @@
  *
  * inotify-java is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with inotify-java.  If not, see <http://www.gnu.org/licenses/>.
+ * along with inotify-java. If not, see <http://www.gnu.org/licenses/>.
  *
  * File: InotifyContext.java
  * Project: inotify-java
@@ -102,7 +102,7 @@ final class InotifyContext {
     }
 
     /**
-     * Adds a listener to the context for the specified watch descriptor.  This
+     * Adds a listener to the context for the specified watch descriptor. This
      * method may block waiting for a write lock.
      * 
      * @param l Listener
@@ -124,8 +124,8 @@ final class InotifyContext {
     }
 
     /**
-     * Returns {@code true} if <tt>path</tt> is valid in this context, 
-     * {@code false} otherwise.  This method may block waiting for a read lock.
+     * Returns {@code true} if <tt>path</tt> is valid in this context,
+     * {@code false} otherwise. This method may block waiting for a read lock.
      * 
      * @param path Path
      * @return boolean
@@ -160,7 +160,7 @@ final class InotifyContext {
 
     /**
      * Returns the watch descriptor within this context for the specified path,
-     * <tt>null</tt> if the path is not valid.  This method may block waiting
+     * <tt>null</tt> if the path is not valid. This method may block waiting
      * for a read lock.
      * 
      * @param path
@@ -180,7 +180,7 @@ final class InotifyContext {
 
     /**
      * Returns {@code true} if the watch descriptor <tt>wd</tt> is valid in
-     * this context, {@code false} otherwise.  This method may block waiting for
+     * this context, {@code false} otherwise. This method may block waiting for
      * a read lock.
      * 
      * @param wd Watch descriptor
@@ -196,7 +196,7 @@ final class InotifyContext {
     }
 
     /**
-     * Removes a path/watch pair from the context by <tt>path</tt>.  This
+     * Removes a path/watch pair from the context by <tt>path</tt>. This
      * method may block waiting for a write lock.
      * 
      * @param path Path
@@ -216,7 +216,7 @@ final class InotifyContext {
 
     /**
      * Removes a path/watch pair from the context by the watch descriptor
-     * <tt>wd</tt>.  This method may block waiting for a write lock.
+     * <tt>wd</tt>. This method may block waiting for a write lock.
      * 
      * @param wd Watch descriptor
      * @see #addPath(String, int)
@@ -234,7 +234,7 @@ final class InotifyContext {
 
     /**
      * Removes a listener from the context for the specified watch descriptor
-     * <tt>wd</tt>.  This method may block waiting for a write lock.
+     * <tt>wd</tt>. This method may block waiting for a write lock.
      * 
      * @param l Inotify event listener
      * @param wd Watch descriptor
@@ -256,7 +256,7 @@ final class InotifyContext {
 
     /**
      * Returns the set of listeners in this context for the specified watch
-     * descriptor <tt>wd</tt>.  This method may block waiting for a read lock.
+     * descriptor <tt>wd</tt>. This method may block waiting for a read lock.
      * 
      * @param wd Watch descriptor
      * @return non-null set of listeners, potentially empty
@@ -275,7 +275,7 @@ final class InotifyContext {
     }
 
     /**
-     * Returns the set of listeners in this context.  This method may block
+     * Returns the set of listeners in this context. This method may block
      * waiting for a read lock.
      * 
      * @return non-null set of listeners, potentially empty
@@ -283,10 +283,11 @@ final class InotifyContext {
     Set<InotifyEventListener> getListeners() {
         rl.lock();
         try {
-            final Set<InotifyEventListener> superset = new HashSet<InotifyEventListener>();
-            Iterable<Set<InotifyEventListener>> sets = listeners.values();
-            for (final Set<InotifyEventListener> set : sets)
+            final Set<InotifyEventListener> superset =
+                    new HashSet<InotifyEventListener>();
+            for (final Set<InotifyEventListener> set : listeners.values()) {
                 superset.addAll(set);
+            }
             return superset;
         } finally {
             rl.unlock();

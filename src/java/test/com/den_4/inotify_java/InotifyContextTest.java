@@ -50,7 +50,7 @@ public class InotifyContextTest {
 
     InotifyContext ic;
     final Random rnd = new Random();
-    
+
     /**
      * @throws Exception
      */
@@ -89,15 +89,20 @@ public class InotifyContextTest {
     }
 
     /**
-     * Test method for {@link
-     * InotifyContext#addListener(InotifyEventListener, int)}.
+     * Test method for
+     * {@link InotifyContext#addListener(InotifyEventListener, int)}.
      */
     @Test
     public void testAddListener() {
         int wd = rnd.nextInt();
         final InotifyEventListener i = new InotifyEventListener() {
-            @Override public void filesystemEventOccurred(InotifyEvent e) {}
-            @Override public void queueFull(EventQueueFull e) {} 
+            @Override
+            public void filesystemEventOccurred(InotifyEvent e) {
+            }
+
+            @Override
+            public void queueFull(EventQueueFull e) {
+            }
         };
         ic.addListener(i, wd);
         assertFalse(ic.isEmpty());
@@ -192,8 +197,13 @@ public class InotifyContextTest {
     public void testRemoveListener() {
         int wd = rnd.nextInt();
         final InotifyEventListener i = new InotifyEventListener() {
-            @Override public void filesystemEventOccurred(InotifyEvent e) {}
-            @Override public void queueFull(EventQueueFull e) {} 
+            @Override
+            public void filesystemEventOccurred(InotifyEvent e) {
+            }
+
+            @Override
+            public void queueFull(EventQueueFull e) {
+            }
         };
         ic.removeListener(i, wd);
         assertTrue(ic.isEmpty());
@@ -212,8 +222,13 @@ public class InotifyContextTest {
     public void testGetListenersInt() {
         int wd = rnd.nextInt();
         final InotifyEventListener i = new InotifyEventListener() {
-            @Override public void filesystemEventOccurred(InotifyEvent e) {}
-            @Override public void queueFull(EventQueueFull e) {} 
+            @Override
+            public void filesystemEventOccurred(InotifyEvent e) {
+            }
+
+            @Override
+            public void queueFull(EventQueueFull e) {
+            }
         };
         assertTrue(ic.getListeners(wd).isEmpty());
         ic.addListener(i, wd);
@@ -231,31 +246,41 @@ public class InotifyContextTest {
         Set<InotifyEventListener> set = ic.getListeners();
         assertNotNull(set);
         assertTrue(set.isEmpty());
-        
+
         final InotifyEventListener i1 = new InotifyEventListener() {
-            @Override public void filesystemEventOccurred(InotifyEvent e) {}
-            @Override public void queueFull(EventQueueFull e) {} 
+            @Override
+            public void filesystemEventOccurred(InotifyEvent e) {
+            }
+
+            @Override
+            public void queueFull(EventQueueFull e) {
+            }
         };
         ic.addListener(i1, wd1);
         set = ic.getListeners();
         assertNotNull(set);
         assertTrue(1 == set.size());
-        
+
         final InotifyEventListener i2 = new InotifyEventListener() {
-            @Override public void filesystemEventOccurred(InotifyEvent e) {}
-            @Override public void queueFull(EventQueueFull e) {} 
+            @Override
+            public void filesystemEventOccurred(InotifyEvent e) {
+            }
+
+            @Override
+            public void queueFull(EventQueueFull e) {
+            }
         };
         ic.addListener(i2, wd1);
         set = ic.getListeners();
         assertNotNull(set);
         assertTrue(2 == set.size());
-        
+
         final InotifyEventListener i3 = i2;
         ic.addListener(i3, wd1);
         set = ic.getListeners();
         assertNotNull(set);
         assertTrue(2 == set.size());
-        
+
         int wd2 = wd1 + 1;
         ic.addListener(i1, wd2);
         ic.addListener(i2, wd2);
@@ -264,14 +289,14 @@ public class InotifyContextTest {
         assertNotNull(set);
         assertTrue(2 == set.size());
     }
-    
+
     /**
      * Test synchronization.
      */
     @Test
     public void testSynchronization() {
         final int runs = 1000;
-        class PathPair { 
+        class PathPair {
             int wd;
             String path;
         }
@@ -279,12 +304,12 @@ public class InotifyContextTest {
             int wd;
             InotifyEventListener iel;
         }
-        
+
         final BlockingQueue<PathPair> pathQueue =
-            new LinkedBlockingQueue<PathPair>();
+                new LinkedBlockingQueue<PathPair>();
         final BlockingQueue<ListenerPair> listenerQueue =
-            new LinkedBlockingQueue<ListenerPair>();
-        
+                new LinkedBlockingQueue<ListenerPair>();
+
         Runnable pathAdder = new Runnable() {
             @Override
             public void run() {
@@ -299,7 +324,7 @@ public class InotifyContextTest {
                 }
             }
         };
-        
+
         Runnable pathRemover = new Runnable() {
             @Override
             public void run() {
@@ -317,15 +342,20 @@ public class InotifyContextTest {
                 }
             }
         };
-        
+
         Runnable listenerAdder = new Runnable() {
             @Override
             public void run() {
                 int wd = rnd.nextInt();
                 for (int i = 0; i < runs; i++) {
                     InotifyEventListener l = new InotifyEventListener() {
-                        @Override public void filesystemEventOccurred(InotifyEvent e) {}
-                        @Override public void queueFull(EventQueueFull e) {}
+                        @Override
+                        public void filesystemEventOccurred(InotifyEvent e) {
+                        }
+
+                        @Override
+                        public void queueFull(EventQueueFull e) {
+                        }
                     };
                     ListenerPair lp = new ListenerPair();
                     lp.wd = wd++;
@@ -335,7 +365,7 @@ public class InotifyContextTest {
                 }
             }
         };
-        
+
         Runnable listenerRemover = new Runnable() {
             @Override
             public void run() {
@@ -350,31 +380,31 @@ public class InotifyContextTest {
                 }
             }
         };
-        
+
         final Thread paT = new Thread(pathAdder);
         final Thread paR = new Thread(pathRemover);
         final Thread laT = new Thread(listenerAdder);
         final Thread laR = new Thread(listenerRemover);
-        
+
         paT.start();
         paR.start();
         laT.start();
         laR.start();
-        
+
         try {
             out.println("(Waiting for synchronization test to finish).");
             paT.join();
             paR.join();
             laT.join();
             laR.join();
-            
+
             assertTrue(ic.isEmpty());
-            
+
         } catch (InterruptedException e) {
             fail(e.toString());
             exit(1);
         }
-        
+
     }
 
 }

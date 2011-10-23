@@ -1,5 +1,5 @@
 /**
- * Copyright © 2010 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2010-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -8,11 +8,11 @@
  *
  * inotify-java is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with inotify-java.  If not, see <http://www.gnu.org/licenses/>.
+ * along with inotify-java. If not, see <http://www.gnu.org/licenses/>.
  *
  * File: InotifyError.java
  * Project: inotify-java
@@ -22,7 +22,7 @@
 package com.den_4.inotify_java.exceptions;
 
 /**
- * Base class of all unchecked exceptios within <b>inotify-java</b>.
+ * Base class of all unchecked exceptions within <b>inotify-java</b>.
  * 
  * @author Nick Bargnesi
  * @since Version 2.0.3

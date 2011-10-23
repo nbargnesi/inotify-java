@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -8,11 +8,11 @@
  *
  * inotify-java is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with inotify-java.  If not, see <http://www.gnu.org/licenses/>.
+ * along with inotify-java. If not, see <http://www.gnu.org/licenses/>.
  *
  * File: MonitorService.java
  * Project: inotify-java
@@ -77,8 +77,8 @@ import com.den_4.inotify_java.exceptions.InvalidWatchDescriptorException;
 public final class MonitorService extends NativeInotify {
 
     /**
-     * Default maximum number of queued events, from {@code
-     * /proc/sys/fs/inotify/max_queued_events}.
+     * Default maximum number of queued events, from
+     * {@code /proc/sys/fs/inotify/max_queued_events}.
      */
     public static final int DEFAULT_MAX_QUEUED_EVENTS = 16384;
 
@@ -124,7 +124,7 @@ public final class MonitorService extends NativeInotify {
     private final ReadLock readMap;
     /* Lock held when mutating maps. */
     private final WriteLock writeMap;
-    
+
     /* Servicing threads. */
     private Thread consumer;
     private Thread producer;
@@ -319,7 +319,8 @@ public final class MonitorService extends NativeInotify {
     private void mapInit() {
         watchPathMap = new ConcurrentHashMap<Integer, String>();
         pathWatchMap = new ConcurrentHashMap<String, Integer>();
-        watchListenerMap = new ConcurrentHashMap<Integer, Set<InotifyEventListener>>();
+        watchListenerMap =
+                new ConcurrentHashMap<Integer, Set<InotifyEventListener>>();
     }
 
     /*
@@ -329,7 +330,7 @@ public final class MonitorService extends NativeInotify {
         consumer.setDaemon(true);
         producer.setDaemon(true);
     }
-    
+
     /*
      * Initialize the service.
      */
@@ -487,10 +488,10 @@ public final class MonitorService extends NativeInotify {
         InotifyEvent ev = new InotifyEvent(e.getSource(),
                 EventModifier.Event_Queue_Overflow.value());
         int wd = e.getSource();
-        
+
         Set<InotifyEventListener> queue = getWatchListenerValue(wd);
         if (queue == null) return;
-        
+
         for (InotifyEventListener l : queue) {
             long t1 = currentTimeMillis();
             l.filesystemEventOccurred(ev);
@@ -549,9 +550,9 @@ public final class MonitorService extends NativeInotify {
             final InotifyEventListener listener) {
         if (listener == null)
             throw new NullPointerException("listener may not be null");
-        
+
         if (!watchPathContains(watchDescriptor))
-            throw new IllegalArgumentException("invalid watch descriptor");            
+            throw new IllegalArgumentException("invalid watch descriptor");
 
         writeMap.lock();
         try {
@@ -583,10 +584,10 @@ public final class MonitorService extends NativeInotify {
             final InotifyEventListener listener) {
         if (listener == null)
             throw new NullPointerException("listener may not be null");
-        
+
         if (!watchListenerContains(watchDescriptor))
             throw new IllegalArgumentException("invalid watch descriptor");
-        
+
         writeMap.lock();
         try {
             Set<InotifyEventListener> s = watchListenerMap.get(watchDescriptor);
@@ -619,7 +620,7 @@ public final class MonitorService extends NativeInotify {
 
         int wm_mask = 0;
         int ev_mask = Event.eventsToMask(events);
-        
+
         readMap.lock();
         try {
             if (pathWatchMap.containsKey(path)) {
@@ -634,7 +635,7 @@ public final class MonitorService extends NativeInotify {
 
     /**
      * Adds a watch for the specified path for the provided events.
-     *
+     * 
      * @param path Path to be watched
      * @param eventMask Events to watch for
      * @return Watch descriptor uniquely identifying this watched path
@@ -668,7 +669,8 @@ public final class MonitorService extends NativeInotify {
      * constructed. The cause of the exception will be provided.
      */
     @ThreadSafe
-    public int addWatch(final String path, final WatchModifier[] watchModifiers,
+    public int addWatch(final String path,
+            final WatchModifier[] watchModifiers,
             final Event[] events) throws InotifyException {
         if (path == null)
             throw new NullPointerException("path may not be null");
@@ -821,12 +823,13 @@ public final class MonitorService extends NativeInotify {
                             if (path.charAt(path.length() - 1) == '/')
                                 e.setContextualName(path.concat(e.getName()));
                             else
-                                e.setContextualName(path.concat("/").concat(e.getName()));
+                                e.setContextualName(path.concat("/").concat(
+                                        e.getName()));
                         }
                     }
 
                     int wd = e.getSource();
-                    
+
                     Set<InotifyEventListener> queue = getWatchListenerValue(wd);
                     if (queue != null) {
                         for (InotifyEventListener l : queue) {
@@ -850,7 +853,7 @@ public final class MonitorService extends NativeInotify {
             }
         }
     }
-    
+
     private Set<InotifyEventListener> getWatchListenerValue(final int wd) {
         readMap.lock();
         try {
@@ -859,7 +862,7 @@ public final class MonitorService extends NativeInotify {
             readMap.unlock();
         }
     }
-    
+
     private Integer getPathWatchValue(final String path) {
         readMap.lock();
         try {
@@ -868,7 +871,7 @@ public final class MonitorService extends NativeInotify {
             readMap.unlock();
         }
     }
-    
+
     private boolean watchPathContains(final int wd) {
         readMap.lock();
         try {
@@ -877,7 +880,7 @@ public final class MonitorService extends NativeInotify {
             readMap.unlock();
         }
     }
-    
+
     private boolean watchListenerContains(final int wd) {
         readMap.lock();
         try {
@@ -886,7 +889,7 @@ public final class MonitorService extends NativeInotify {
             readMap.unlock();
         }
     }
-    
+
     private String getWatchPathValue(final int wd) {
         readMap.lock();
         try {
@@ -895,7 +898,7 @@ public final class MonitorService extends NativeInotify {
             readMap.unlock();
         }
     }
-    
+
     private void purgewatch(final int wd, String path) {
         writeMap.lock();
         try {
@@ -907,5 +910,5 @@ public final class MonitorService extends NativeInotify {
             writeMap.unlock();
         }
     }
-    
+
 }

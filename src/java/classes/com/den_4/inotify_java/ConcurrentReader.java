@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -8,11 +8,11 @@
  *
  * inotify-java is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with inotify-java.  If not, see <http://www.gnu.org/licenses/>.
+ * along with inotify-java. If not, see <http://www.gnu.org/licenses/>.
  *
  * File: Inotify.java
  * Project: inotify-java
@@ -34,19 +34,20 @@ import com.den_4.inotify_java.exceptions.InotifyException;
  * {@code ConcurrentReader:[fileDescriptor]}, where the file descriptor is
  * associated with the parent native inotify instance.
  * </p>
- *
+ * 
  * @author Nick Bargnesi
  */
-public abstract class ConcurrentReader extends NativeInotify implements UncaughtExceptionHandler {
+public abstract class ConcurrentReader extends NativeInotify implements
+        UncaughtExceptionHandler {
 
     private final Thread reader;
-    
+
     /**
      * Constructs a concurrent reader, delaying starting the reader thread until
      * the caller invokes {@link #startReader()}.
-     *
+     * 
      * @throws InotifyException Thrown when the watcher could not be created; a
-     *         cause will be provided to the thrown object.
+     * cause will be provided to the thrown object.
      */
     public ConcurrentReader() throws InotifyException {
         super();
@@ -63,10 +64,10 @@ public abstract class ConcurrentReader extends NativeInotify implements Uncaught
         reader.setDaemon(true);
         reader.setUncaughtExceptionHandler(this);
     }
-    
+
     /**
      * Start the thread that {@link com.den_4.inotify_java.NativeInotify#read()
-     * reads from the native instance}. 
+     * reads from the native instance}.
      */
     protected final void startReader() {
         reader.start();
@@ -75,7 +76,7 @@ public abstract class ConcurrentReader extends NativeInotify implements Uncaught
     /**
      * Method invoked when the anonymous runnable terminates due to the uncaught
      * exception {@code e}. This handler destroys the Inotify instance.
-     *
+     * 
      * @param t Terminating thread
      * @param e Uncaught exception
      */

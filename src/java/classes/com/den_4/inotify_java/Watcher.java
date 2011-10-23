@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -8,11 +8,11 @@
  *
  * inotify-java is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with inotify-java.  If not, see <http://www.gnu.org/licenses/>.
+ * along with inotify-java. If not, see <http://www.gnu.org/licenses/>.
  *
  * File: Watcher.java
  * Project: inotify-java
@@ -52,9 +52,9 @@ import com.den_4.inotify_java.exceptions.InotifyException;
  * CyclicBarrier}.</dd>
  * <dt>{@link java.util.concurrent.CountDownLatch}</dt>
  * <dd>Invoking await on a {@code java.util.concurent.CountDownLatch
- * CountDownLatch}. The one-shot nature of the latch is inherited by the {@code
- * Watcher} class. Successive events will not cause a <em>count down</em> of the
- * provided latch.</dd>
+ * CountDownLatch}. The one-shot nature of the latch is inherited by the
+ * {@code Watcher} class. Successive events will not cause a <em>count down</em>
+ * of the provided latch.</dd>
  * <dt>{@link java.util.concurrent.Semaphore Semaphore}</dt>
  * <dd>Acquiring a permit provided by the {@code Watcher} with a
  * {@link java.util.concurrent.Semaphore semaphore}.</dd>
@@ -355,14 +355,16 @@ public class Watcher extends ConcurrentReader {
                 barrier.await();
             } catch (InterruptedException ie) {
                 destroy();
-                UnsupportedOperationException uoe = new UnsupportedOperationException(
-                        "watcher destroyed");
+                final String msg = "watcher destroyed";
+                UnsupportedOperationException uoe;
+                uoe = new UnsupportedOperationException(msg);
                 uoe.initCause(ie);
                 throw uoe;
             } catch (BrokenBarrierException bbe) {
                 destroy();
-                UnsupportedOperationException uoe = new UnsupportedOperationException(
-                        "watcher destroyed");
+                final String msg = "watcher destroyed";
+                UnsupportedOperationException uoe;
+                uoe = new UnsupportedOperationException(msg);
                 uoe.initCause(bbe);
                 throw uoe;
             }

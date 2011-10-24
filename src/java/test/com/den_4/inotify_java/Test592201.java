@@ -57,10 +57,10 @@ public class Test592201 {
         try {
             m = new MonitorService();
             assertTrue(m.isActive());
+            m.destroy();
         } catch (InotifyException e) {
             fail("error constructing: " + e);
         }
-        m.destroy();
     }
 
     /**

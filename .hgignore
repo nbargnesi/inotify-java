@@ -15,3 +15,4 @@ syntax: glob
 src/cpp/*.so*
 src/cpp/*.so*
 src/java/*.jar
+src/java/reports

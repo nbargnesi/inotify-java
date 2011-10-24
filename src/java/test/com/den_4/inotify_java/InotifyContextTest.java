@@ -305,10 +305,9 @@ public class InotifyContextTest {
             InotifyEventListener iel;
         }
 
-        final BlockingQueue<PathPair> pathQueue =
-                new LinkedBlockingQueue<PathPair>();
+        final BlockingQueue<PathPair> pathQueue = new LinkedBlockingQueue<>();
         final BlockingQueue<ListenerPair> listenerQueue =
-                new LinkedBlockingQueue<ListenerPair>();
+                new LinkedBlockingQueue<>();
 
         Runnable pathAdder = new Runnable() {
             @Override

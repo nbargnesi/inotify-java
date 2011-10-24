@@ -80,7 +80,7 @@ public final class MonitorService extends NativeInotify {
      * Default maximum number of queued events, from
      * {@code /proc/sys/fs/inotify/max_queued_events}.
      */
-    public static final int DEFAULT_MAX_QUEUED_EVENTS = 16384;
+    public static final int DEFAULT_MAX_QUEUED_EVENTS = 16_384;
 
     /**
      * Map of watch descriptors to paths.
@@ -282,7 +282,7 @@ public final class MonitorService extends NativeInotify {
      * Creates the backing queue.
      */
     private void initQueue() {
-        queue = new LinkedBlockingQueue<InotifyEvent>(queueCapacity);
+        queue = new LinkedBlockingQueue<>(queueCapacity);
     }
 
     /*
@@ -317,10 +317,9 @@ public final class MonitorService extends NativeInotify {
      * Establish maps.
      */
     private void mapInit() {
-        watchPathMap = new ConcurrentHashMap<Integer, String>();
-        pathWatchMap = new ConcurrentHashMap<String, Integer>();
-        watchListenerMap =
-                new ConcurrentHashMap<Integer, Set<InotifyEventListener>>();
+        watchPathMap = new ConcurrentHashMap<>();
+        pathWatchMap = new ConcurrentHashMap<>();
+        watchListenerMap = new ConcurrentHashMap<>();
     }
 
     /*
@@ -558,7 +557,7 @@ public final class MonitorService extends NativeInotify {
         try {
             Set<InotifyEventListener> s = watchListenerMap.get(watchDescriptor);
             if (s == null) {
-                s = new CopyOnWriteArraySet<InotifyEventListener>();
+                s = new CopyOnWriteArraySet<>();
                 watchListenerMap.put(watchDescriptor, s);
             }
             s.add(listener);

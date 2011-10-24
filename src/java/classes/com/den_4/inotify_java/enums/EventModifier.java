@@ -55,7 +55,7 @@ public enum EventModifier {
     private final static Map<String, EventModifier> STRINGTOENUM;
 
     static {
-        STRINGTOENUM = new HashMap<String, EventModifier>();
+        STRINGTOENUM = new HashMap<>();
         for (EventModifier e : values())
             STRINGTOENUM.put(e.toString(), e);
     }
@@ -128,7 +128,7 @@ public enum EventModifier {
      * @return EventModifier[]
      */
     public static EventModifier[] maskToEventModifiers(int mask) {
-        List<EventModifier> mods = new ArrayList<EventModifier>();
+        List<EventModifier> mods = new ArrayList<>();
 
         for (EventModifier m : values()) {
             if (m.value == (m.value & mask)) mods.add(m);

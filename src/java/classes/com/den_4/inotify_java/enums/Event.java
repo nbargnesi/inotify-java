@@ -134,7 +134,7 @@ public enum Event {
     private final static Map<String, Event> STRINGTOENUM;
 
     static {
-        STRINGTOENUM = new HashMap<String, Event>();
+        STRINGTOENUM = new HashMap<>();
         for (Event e : values())
             STRINGTOENUM.put(e.toString(), e);
     }
@@ -269,7 +269,7 @@ public enum Event {
      * @return Event[]
      */
     public static Event[] maskToEvents(int mask) {
-        List<Event> evs = new ArrayList<Event>();
+        List<Event> evs = new ArrayList<>();
 
         for (Event e : values()) {
             if (e.value == (e.value & mask)) evs.add(e);

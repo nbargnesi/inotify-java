@@ -65,9 +65,9 @@ final class InotifyContext {
         rl = lock.readLock();
         wl = lock.writeLock();
 
-        paths = new HashMap<Integer, String>();
-        watches = new HashMap<String, Integer>();
-        listeners = new HashMap<Integer, Set<InotifyEventListener>>();
+        paths = new HashMap<>();
+        watches = new HashMap<>();
+        listeners = new HashMap<>();
     }
 
     /**
@@ -114,7 +114,7 @@ final class InotifyContext {
         try {
             Set<InotifyEventListener> set = listeners.get(wd);
             if (set == null) {
-                set = new HashSet<InotifyEventListener>();
+                set = new HashSet<>();
                 listeners.put(wd, set);
             }
             set.add(l);
@@ -283,8 +283,7 @@ final class InotifyContext {
     Set<InotifyEventListener> getListeners() {
         rl.lock();
         try {
-            final Set<InotifyEventListener> superset =
-                    new HashSet<InotifyEventListener>();
+            final Set<InotifyEventListener> superset = new HashSet<>();
             for (final Set<InotifyEventListener> set : listeners.values()) {
                 superset.addAll(set);
             }

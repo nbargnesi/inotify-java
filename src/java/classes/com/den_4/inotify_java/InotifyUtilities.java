@@ -87,18 +87,18 @@ public final class InotifyUtilities {
      */
     public static Queue<String> getPaths(final String path) throws IOException {
         final File root = new File(path);
-        final Queue<String> queue = new LinkedList<String>();
+        final Queue<String> queue = new LinkedList<>();
         if (!root.isDirectory())
             return queue;
 
-        final Set<String> visited = new HashSet<String>();
+        final Set<String> visited = new HashSet<>();
         String can_path = root.getCanonicalPath();
         visited.add(can_path);
         queue.add(can_path);
 
-        Queue<String> next = new LinkedList<String>(queue);
+        Queue<String> next = new LinkedList<>(queue);
         while (!next.isEmpty()) {
-            final Queue<String> current = new LinkedList<String>();
+            final Queue<String> current = new LinkedList<>();
             for (final String subpath : next) {
                 final File f = new File(subpath);
                 if (!f.isDirectory())

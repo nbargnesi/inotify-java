@@ -279,7 +279,7 @@ public class Watcher extends ConcurrentReader {
     public void addListener(InotifyEventListener l) {
         if (l != null) {
             if (listeners == null)
-                listeners = new LinkedList<InotifyEventListener>();
+                listeners = new LinkedList<>();
             listeners.add(l);
         }
     }

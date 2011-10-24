@@ -53,7 +53,7 @@ public enum WatchModifier {
     private final static Map<String, WatchModifier> STRINGTOENUM;
 
     static {
-        STRINGTOENUM = new HashMap<String, WatchModifier>();
+        STRINGTOENUM = new HashMap<>();
         for (WatchModifier w : values())
             STRINGTOENUM.put(w.toString(), w);
     }
@@ -126,7 +126,7 @@ public enum WatchModifier {
      * @return WatchModifier[]
      */
     public static WatchModifier[] maskToWatchModifiers(int mask) {
-        List<WatchModifier> mods = new ArrayList<WatchModifier>();
+        List<WatchModifier> mods = new ArrayList<>();
 
         for (WatchModifier m : values()) {
             if (m.value == (m.value & mask))

@@ -1,7 +1,7 @@
 # Version information
 MAJOR_VERSION = 2
-MINOR_VERSION = 0
-PATCH_VERSION = 3
+MINOR_VERSION = 1
+PATCH_VERSION = 0
 
 # Shared object variable definitions
 SO_PREFIX = lib@PACKAGE_NAME@

@@ -45,8 +45,7 @@ public class Test592201 {
      */
     @BeforeClass
     public static void loadLibrary() {
-        NativeInotify.loadLibrary(null);
-        assertTrue(NativeInotify.isLibraryLoaded());
+        TestBootstrap.loadLibrary();
     }
 
     /**

@@ -50,6 +50,7 @@
             <batchtest fork='yes' todir="reports">
                 <fileset dir='test'>
                     <include name='**/*.java'/>
+                    <exclude name='**/TestBootstrap.java'/>
                 </fileset>
             </batchtest>
         </junit>

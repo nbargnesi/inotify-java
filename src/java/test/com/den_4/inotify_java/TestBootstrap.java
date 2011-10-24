@@ -28,8 +28,6 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 
-import org.junit.BeforeClass;
-
 /**
  * Inotify test bootstrap utilities.
  * 

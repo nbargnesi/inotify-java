@@ -25,7 +25,6 @@ import static java.lang.String.valueOf;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -236,8 +235,6 @@ public final class InotifyUtilities {
             final FileWriter fw = new FileWriter(f);
             fw.write(str);
             fw.close();
-        } catch (FileNotFoundException e) {
-            throw new PermissionDenied(e);
         } catch (IOException e) {
             throw new PermissionDenied(e);
         }
@@ -254,7 +251,7 @@ public final class InotifyUtilities {
             String buf = br.readLine();
             br.close();
             return Long.parseLong(buf);
-        } catch (FileNotFoundException e) {} catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
 
         }

@@ -3,7 +3,7 @@
 <project name='inotify-java' default='build' basedir='.'>
 
     <property name='version' value='2.1'/>
-    <property name='srcver' value='1.6'/>
+    <property name='srcver' value='1.7'/>
 
     <target name='compile'
         description='compiles the source'>

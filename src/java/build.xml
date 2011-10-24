@@ -2,12 +2,19 @@
 
 <project name='inotify-java' default='build' basedir='.'>
 
+    <property name='version' value='2.1'/>
+    <property name='srcver' value='1.6'/>
+
     <target name='compile'
         description='compiles the source'>
-        <javac srcdir='classes' includeantruntime='false'
+        <javac srcdir='classes'
+            includeantruntime='false'
+            source='${srcver}'
             debug='on'
             debuglevel='lines,vars,source'/>
-        <javac srcdir='test' includeantruntime='false'
+        <javac srcdir='test'
+            includeantruntime='false'
+            source='${srcver}'
             debug='on'
             debuglevel='lines,vars,source'
             classpath='classes:../../lib/junit4-4.8.2.jar'/>

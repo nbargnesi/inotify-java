@@ -84,7 +84,7 @@ public enum WatchModifier {
      * @param s Coversion value
      * @return Watch modifier
      */
-    public WatchModifier fromString(String s) {
+    public static WatchModifier fromString(String s) {
         return STRINGTOENUM.get(s);
     }
 

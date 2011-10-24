@@ -86,7 +86,7 @@ public enum EventModifier {
      * @param s Conversion value
      * @return event modifier
      */
-    public EventModifier fromString(String s) {
+    public static EventModifier fromString(String s) {
         return STRINGTOENUM.get(s);
     }
 

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with inotify-java. If not, see <http://www.gnu.org/licenses/>.
  *
- * File: TestBootstrap.java
+ * File: Utilities.java
  * Project: inotify-java
  * Package: com.den_4.inotify_java
  * Author: Nick Bargnesi
@@ -29,12 +29,12 @@ import static org.junit.Assert.fail;
 import java.io.File;
 
 /**
- * Inotify test bootstrap utilities.
+ * Inotify testing utilities.
  * 
  * @author Nick Bargnesi
  * @since Version 2.1
  */
-public final class TestBootstrap {
+public final class Utilities {
 
     /**
      * Loads the native library for tests that require it.

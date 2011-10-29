@@ -117,8 +117,7 @@ public abstract class NativeInotify {
     /**
      * Loads the native library specified by the filename. Supplying a
      * {@code filename} value of {@code null} will result in the library being
-     * loaded
-     * using the library paths provided to the virtual machine.
+     * loaded using the library paths provided to the virtual machine.
      * <p>
      * This method is {@link com.den_4.inotify_java.ThreadSafe thread-safe}.
      * </p>
@@ -133,10 +132,8 @@ public abstract class NativeInotify {
     public static void loadLibrary(String filename) throws UnsatisfiedLinkError {
         lock.lock();
         try {
-            if (filename == null)
-                loadLibrary("inotify-java"); //$NON-NLS-1$
-            else
-                load(filename);
+            if (filename == null) loadLibrary("inotify-java"); //$NON-NLS-1$
+            else load(filename);
             nativeLibLoaded = true;
         } finally {
             lock.unlock();
@@ -285,7 +282,13 @@ public abstract class NativeInotify {
     }
 
     /**
-     * Receives an Inotify event from the native interface.
+     * Receives an {@link InotifyEvent} from the native interface.
+     * <p>
+     * Implementations should consider minimizing the time to process the
+     * {@link InotifyEvent}. The more time this handler takes, the less the
+     * native queue is processed. This increases the likelihood of the event
+     * queue overflowing.
+     * </p>
      * 
      * @param e InotifyEvent from the native interface
      */

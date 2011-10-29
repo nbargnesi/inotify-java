@@ -21,6 +21,7 @@
  */
 package com.den_4.inotify_java;
 
+import static com.den_4.inotify_java.Utilities.loadLibrary;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -44,8 +45,8 @@ public class Test592201 {
      * Asserts native library is loaded.
      */
     @BeforeClass
-    public static void loadLibrary() {
-        TestBootstrap.loadLibrary();
+    public static void beforeClass() {
+        loadLibrary();
     }
 
     /**

@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009 Nick Bargnesi <nick@den-4.com>.  All rights reserved.
+ * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -23,6 +23,7 @@
 
 /*
  * Function: JNI_OnLoad
+ *
  *     The VM calls JNI_OnLoad when the native library is loaded.
  *
  * Returns:
@@ -119,6 +120,7 @@ fail:
 
 /*
  * Function: JNI_OnUnload
+ *
  *     The VM calls JNI_OnUnload when the class loader containing the native
  *     library is garbage collected.
  */
@@ -147,7 +149,9 @@ JNIEXPORT void JNI_OnUnload(JavaVM *j, void *reserved) {
 
 /*
  * Function: Java_com_den_14_inotify_1java_NativeInotify_init
- *     Creates a nnexnew Inotify object, returning its file descriptor or -1 on error.
+ *
+ *     Creates a new Inotify object, returning its file descriptor or -1 on
+ *     error.
  *
  * Returns:
  *     Inotify object file descriptor or -1 on error
@@ -195,7 +199,8 @@ JNIEXPORT jint JNICALL Java_com_den_14_inotify_1java_NativeInotify_init(JNIEnv *
 
 /*
  * Function: Java_com_den_14_inotify_1java_NativeInotify_close
- *     Closes the inotify instance
+ *
+ *     Closes the inotify instance.
  */
 JNIEXPORT void JNICALL Java_com_den_14_inotify_1java_NativeInotify_close(JNIEnv *e, jobject j, jint fd) {
     jint pw = (e)->CallIntMethod(j, native_inotify_getPipeWrite);
@@ -212,7 +217,9 @@ JNIEXPORT void JNICALL Java_com_den_14_inotify_1java_NativeInotify_close(JNIEnv 
 
 /*
  * Function: Java_com_den_14_inotify_1java_NativeInotify_add_1watch
- *     Adds the specified mask/path to the Inotify object associated with the specified file descriptor.
+ *
+ *     Adds the specified mask/path to the Inotify object associated with the
+ *     specified file descriptor.
  *
  * Parameters:
  *     fd  - Inotify object file descriptor
@@ -222,8 +229,8 @@ JNIEXPORT void JNICALL Java_com_den_14_inotify_1java_NativeInotify_close(JNIEnv 
  * Returns:
  *     The watch descriptor or -1 on error
  */
-JNIEXPORT jint JNICALL Java_com_den_14_inotify_1java_NativeInotify_add_1watch(JNIEnv *e, jobject j, jint fd, jstring path,
-        jint mask) {
+JNIEXPORT jint JNICALL Java_com_den_14_inotify_1java_NativeInotify_add_1watch(
+        JNIEnv *e, jobject j, jint fd, jstring path, jint mask) {
     const char *path_chars = (e)->GetStringUTFChars(path, NULL);
     int ret = inotify_add_watch(fd, path_chars, mask);
     (e)->ReleaseStringUTFChars(path, path_chars);
@@ -254,7 +261,8 @@ JNIEXPORT jint JNICALL Java_com_den_14_inotify_1java_NativeInotify_add_1watch(JN
  * Returns:
  *     Returns 0 or -1 on error
  */
-JNIEXPORT jint JNICALL Java_com_den_14_inotify_1java_NativeInotify_rm_1watch(JNIEnv *e, jobject j, jint fd, jint wd) {
+JNIEXPORT jint JNICALL Java_com_den_14_inotify_1java_NativeInotify_rm_1watch(
+        JNIEnv *e, jobject j, jint fd, jint wd) {
     int ret = inotify_rm_watch(fd, wd);
     if (ret < 0) {
         debug("inotify_rm_watch() failed (" << errno << "): " << strerror(errno));
@@ -272,10 +280,13 @@ JNIEXPORT jint JNICALL Java_com_den_14_inotify_1java_NativeInotify_rm_1watch(JNI
  * Parameters:
  *     fd - inotify object file descriptor
  */
-JNIEXPORT void JNICALL Java_com_den_14_inotify_1java_NativeInotify_read(JNIEnv *e, jobject j, jint fd) {
+JNIEXPORT void JNICALL Java_com_den_14_inotify_1java_NativeInotify_read(
+        JNIEnv *e, jobject j, jint fd) {
     jint in_fd = (e)->CallIntMethod(j, native_inotify_getFileDescriptor);
     jint pr = (e)->CallIntMethod(j, native_inotify_getPipeRead);
     fd_set watchset;
+    jthrowable thrwbl;
+    char *buf;
 
     while (true) {
         FD_ZERO(&watchset);
@@ -287,15 +298,12 @@ JNIEXPORT void JNICALL Java_com_den_14_inotify_1java_NativeInotify_read(JNIEnv *
         if (selval < 0) {
             debug("select() failed (" << errno << "): " << strerror(errno));
             (e)->ThrowNew(inotify_exception, strerror(errno));
-            close(pr);
-            close(in_fd);
-            return;
+            goto END_READ;
         }
 
         if (FD_ISSET(pr, &watchset)) {
-            close(pr);
-            close(in_fd);
-            return;
+            debug("close invoked, returning from read");
+            goto END_READ;
         }
 
         int nbytes;
@@ -303,21 +311,23 @@ JNIEXPORT void JNICALL Java_com_den_14_inotify_1java_NativeInotify_read(JNIEnv *
         if (ctlval < 0) {
             debug("ioctl() failed (" << errno << "): " << strerror(errno));
             (e)->ThrowNew(inotify_exception, strerror(errno));
-            close(pr);
-            close(in_fd);
-            return;
+            goto END_READ;
         }
 
-        char *buf = (char *) malloc(nbytes);
+        buf = (char *) malloc(nbytes);
+        if (!buf) {
+            fprintf(stderr, "buffer allocation (%d bytes) failed", nbytes);
+            fprintf(stderr, "(returning from read due to allocation failure)");
+            goto END_READ;
+        }
+
         memset(buf, 0, nbytes);
 
         int rval = read(in_fd, buf, nbytes);
         if (rval < 0) {
             debug("read() failed (" << errno << "): " << strerror(errno));
             (e)->ThrowNew(inotify_exception, strerror(errno));
-            close(pr);
-            close(in_fd);
-            return;
+            goto END_READ;
         }
 
         int offset = 0;
@@ -326,40 +336,69 @@ JNIEXPORT void JNICALL Java_com_den_14_inotify_1java_NativeInotify_read(JNIEnv *
             INOTIFY_EVENT *ev = (INOTIFY_EVENT *) &buf[offset];
             jobject inotifyEvent;
             int evSize, sSize = sizeof(INOTIFY_EVENT);
+
+            /* How big was the event? */
+            evSize = sSize;
+
             if (ev->len != 0) {
-                /* NewStringUTF could fail if OOM */
                 jstring fname = (e)->NewStringUTF(ev->name);
-                if (fname) {
-                    /* Local reference, freed on native method exit ONLY */
-                    inotifyEvent = (e)->NewObject(inotify_event, inotify_event_init_III_Ljava_lang_String, ev->wd, ev->mask, ev->cookie, fname);
-                    (e)->DeleteLocalRef(fname);
-                } else
-                    inotifyEvent = (e)->NewObject(inotify_event, inotify_event_init_III_V, ev->wd, ev->mask, ev->cookie);
+                if (!fname) {
+                    thrwbl = (e)->ExceptionOccurred();
+                    debug("NewStringUTF failed, returning from read");
+                    goto EXCEPTION_OCCURRED;
+                }
 
-                /* How big was the event? */
-                evSize = sSize + ev->len;
-                /* Decrement the number of available bytes. */
-                rval -= evSize;
+                inotifyEvent = (e)->NewObject(inotify_event,
+                               inotify_event_init_III_Ljava_lang_String,
+                               ev->wd, ev->mask, ev->cookie, fname);
+                (e)->DeleteLocalRef(fname);
+                evSize += ev->len;
             } else {
-
-                inotifyEvent = (e)->NewObject(inotify_event, inotify_event_init_III_V, ev->wd, ev->mask, ev->cookie);
-
-                /* How big was the event? */
-                evSize = sSize;
-                /* Decrement the number of available bytes. */
-                rval -= evSize;
+                inotifyEvent = (e)->NewObject(inotify_event,
+                               inotify_event_init_III_V,
+                               ev->wd, ev->mask, ev->cookie);
             }
+
+            if (!inotifyEvent) {
+                thrwbl = (e)->ExceptionOccurred();
+                debug("NewObject failed, returning from read");
+                goto EXCEPTION_OCCURRED;
+            }
+
+            /* Decrement the number of available bytes. */
+            rval -= evSize;
 
             /* Send the event off to the Java listener. */
             (e)->CallVoidMethod(j, native_inotify_eventHandler, inotifyEvent);
-            // TODO: Check for exceptions raised here (by native_inoitfy_eventHandler)!
-            /* Delete remaining local references so the native code doesn't hang on to objects. */
+            if ((e)->ExceptionCheck()) {
+                debug("exception in eventHandler, returning from read");
+                thrwbl = (e)->ExceptionOccurred();
+                goto EXCEPTION_OCCURRED;
+            }
+
+            /*
+             * Delete remaining local references so the native code doesn't hang
+             * on to objects.
+             */
             (e)->DeleteLocalRef(inotifyEvent);
-            
+
             /* Calculate the location of the next event. */
             offset += evSize;
         }
-        free(buf);
     }
+
+EXCEPTION_OCCURRED:
+    debug(__func__ << ": exception occurred" << endl);
+    if (thrwbl) {
+        (e)->ExceptionDescribe();
+        (e)->ExceptionClear();
+        (e)->DeleteLocalRef(thrwbl);
+    }
+
+END_READ:
+    if (buf) free(buf);
+    close(pr);
+    close(in_fd);
+    return;
 }
 

@@ -462,7 +462,7 @@ public final class MonitorService extends NativeInotify {
      */
     @Override
     void eventHandler(InotifyEvent e) {
-        if (EventModifier.isSet(Event_Queue_Overflow, e.getMask())) {
+        if (e.isOverflowed()) {
             // TODO event queue overflow
         }
 

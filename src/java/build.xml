@@ -57,7 +57,6 @@
             <batchtest fork='yes' todir="reports">
                 <fileset dir='test'>
                     <include name='**/*Test*.java'/>
-                    <exclude name='**/Utilities.java'/>
                 </fileset>
             </batchtest>
         </junit>

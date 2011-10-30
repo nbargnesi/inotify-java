@@ -56,8 +56,7 @@
             </classpath>
             <batchtest fork='yes' todir="reports">
                 <fileset dir='test'>
-                    <include name='**/*.java'/>
-                    <exclude name='**/TestBootstrap.java'/>
+                    <include name='**/*Test*.java'/>
                 </fileset>
             </batchtest>
         </junit>

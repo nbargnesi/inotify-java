@@ -21,7 +21,6 @@
  */
 package com.den_4.inotify_java;
 
-import static com.den_4.inotify_java.enums.EventModifier.Event_Queue_Overflow;
 import static java.lang.System.currentTimeMillis;
 
 import java.lang.Thread.UncaughtExceptionHandler;

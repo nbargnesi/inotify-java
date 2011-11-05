@@ -17,7 +17,7 @@
 #
 
 '''
-Simulates filesystem activity occurring within the simulation directory.
+Simulates filesystem activity occurring within a simulation directory.
 Interrupting the simulation will stop it, removing all files from the
 simulation directory.
 '''
@@ -38,6 +38,7 @@ class Usage(Exception):
 class FileCreator(Thread):
     def __init__(self, sleep_period, lock, set, jitter, bytes):
         Thread.__init__(self)
+        self.setDaemon(True)
         self.sleep_period = sleep_period
         self.lock = lock
         self.set = set
@@ -66,6 +67,7 @@ class FileCreator(Thread):
 class FileDeleter(Thread):
     def __init__(self, sleep_period, lock, set, jitter):
         Thread.__init__(self)
+        self.setDaemon(True)
         self.sleep_period = sleep_period
         self.lock = lock
         self.set = set
@@ -87,6 +89,7 @@ class FileDeleter(Thread):
 class MetaChanger(Thread):
     def __init__(self, sleep_period, lock, set, jitter):
         Thread.__init__(self)
+        self.setDaemon(True)
         self.sleep_period = sleep_period
         self.lock = lock
         self.set = set
@@ -111,6 +114,7 @@ class MetaChanger(Thread):
 class Reader(Thread):
     def __init__(self, sleep_period, lock, set, jitter, bytes):
         Thread.__init__(self)
+        self.setDaemon(True)
         self.sleep_period = sleep_period
         self.lock = lock
         self.set = set
@@ -135,6 +139,7 @@ class Reader(Thread):
 class Writer(Thread):
     def __init__(self, sleep_period, lock, set, jitter, bytes):
         Thread.__init__(self)
+        self.setDaemon(True)
         self.daemon = True
         self.sleep_period = sleep_period
         self.lock = lock
@@ -168,32 +173,36 @@ def main(argv=None):
         argv = sys.argv
     usage = argv[0] + ' [ARGUMENT]...\n' + \
             "Try '" + argv[0] + " --help' for more information."
-    ap = argparse.ArgumentParser(description=__doc__, usage=usage)
+    epilog = ("Report bugs to: "
+              "https://bitbucket.org/nbargnesi/inotify-java/issues")
 
-    ap.add_argument('-d', required = True, metavar='<empty directory>',
+    ap = argparse.ArgumentParser(description=__doc__, usage=usage,
+            epilog = epilog)
+
+    ap.add_argument('-d', required = True, metavar='<directory>',
             help='simulation directory')
 
     ap.add_argument('-up', default = 3600, type = int, metavar = '<seconds>',
             help='simulation runtime (default: 3600 seconds)')
 
     ap.add_argument('-sp', default = 1, type = float, metavar = '<seconds>',
-            help='sleep period for each thread (default: 1 second)')
+            help='per-thread sleep period (default: 1 second)')
 
     ap.add_argument('-j', default = [1.0, 1.0], type = float,
             metavar = 'N', nargs = 2,
             help='per-thread jitter factor (default: 1.0, 1.0)')
 
-    ap.add_argument('-cb', default = [4096, 5000000], type = int,
+    ap.add_argument('-fs', default = [4096, 5000000], type = int,
             metavar = 'N', nargs = 2,
-            help='filesize range for new files (default: 4k, 5 MB)')
+            help='file size range in bytes (default: 4k minimum, 5 MB maximum)')
 
     ap.add_argument('-rb', default = [4096, 5000000], type = int,
             metavar = 'N', nargs = 2,
-            help='read bytes (default: 4k, 5 MB)')
+            help='read bytes (default: 4k minimum, 5 MB maximum)')
 
     ap.add_argument('-wb', default = [4096, 5000000], type = int,
             metavar = 'N', nargs = 2,
-            help='write bytes (default: 4k, 5 MB)')
+            help='write bytes (default: 4k minimum, 5 MB maximum)')
 
     ap.add_argument('-ct', default = 1, type=int, metavar='<threads>',
             help='threads creating files (default: 1 thread)')
@@ -217,7 +226,7 @@ def main(argv=None):
         write = args.wt
         jit = args.j
 
-        cb = args.cb
+        fs = args.fs
         rb = args.rb
         wb = args.wb
         
@@ -232,7 +241,7 @@ def main(argv=None):
         print 'Runtime (seconds):', args.up
         print 'Thread sleep period (seconds):', nap
         print 'Jitter factor:', jit
-        print 'Filesize range for new files (bytes):', cb
+        print 'Filesize range for new files (bytes):', fs
         print 'Read range (bytes):', rb
         print 'Write range (bytes):', wb
         print '\nThreads:'
@@ -246,7 +255,7 @@ def main(argv=None):
 
         chdir(directory)
 
-        [FileCreator(nap, lck, fset, jit, cb).start() for x in range(0, create)]
+        [FileCreator(nap, lck, fset, jit, fs).start() for x in range(0, create)]
         [FileDeleter(nap, lck, fset, jit).start() for x in range(0, delete)]
         [MetaChanger(nap, lck, fset, jit).start() for x in range(0, meta)]
         [Reader(nap, lck, fset, jit, rb).start() for x in range(0, read)]

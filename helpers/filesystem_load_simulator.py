@@ -1,4 +1,6 @@
 #!/usr/bin/env python2
+# vim: set fileencoding=utf-8 :
+# Copyright © 2009-2012 Nick Bargnesi <nick@den-4.com>. All rights reserved.
 #
 # This file is part of inotify-java.
 # 

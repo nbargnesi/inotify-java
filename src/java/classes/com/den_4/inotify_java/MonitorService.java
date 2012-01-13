@@ -21,7 +21,6 @@
  */
 package com.den_4.inotify_java;
 
-import static com.den_4.inotify_java.enums.EventModifier.Event_Queue_Overflow;
 import static java.lang.System.currentTimeMillis;
 
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -462,7 +461,7 @@ public final class MonitorService extends NativeInotify {
      */
     @Override
     void eventHandler(InotifyEvent e) {
-        if (EventModifier.isSet(Event_Queue_Overflow, e.getMask())) {
+        if (e.isOverflowed()) {
             // TODO event queue overflow
         }
 

@@ -1,7 +1,3 @@
-EXTRA_DIST = build.xml \
-	     classes \
-	     test
-
 JAVAC_ARGS = -g -Xlint:-serial
 JAR_DIST = @PACKAGE_NAME@-@VERSION@.jar
 
@@ -23,3 +19,4 @@ install-data-local: install-data-local-check
 install-data-local-check:
 	-mkdir -p $(pkgdatadir)/lib
 	@INSTALL@ --mode=644 $(JAR_DIST) $(pkgdatadir)/lib
+

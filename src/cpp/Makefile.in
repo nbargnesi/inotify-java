@@ -143,10 +143,6 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = inotify-interface.cpp \
-	     inotify-interface.h \
-	     typedefs.h
-
 
 # Version information
 MAJOR_VERSION = 2

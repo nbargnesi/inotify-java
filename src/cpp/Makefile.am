@@ -1,7 +1,3 @@
-EXTRA_DIST = inotify-interface.cpp \
-	     inotify-interface.h \
-	     typedefs.h
-
 # Version information
 MAJOR_VERSION = 2
 MINOR_VERSION = 1

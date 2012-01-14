@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
+ * Copyright © 2009-2012 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -20,6 +20,7 @@
  */
 
 #include "inotify-interface.h"
+#include <sys/epoll.h>
 
 /*
  * Function: JNI_OnLoad
@@ -283,25 +284,50 @@ JNIEXPORT jint JNICALL Java_com_den_14_inotify_1java_NativeInotify_rm_1watch(
 JNIEXPORT void JNICALL Java_com_den_14_inotify_1java_NativeInotify_read(
         JNIEnv *e, jobject j, jint fd) {
     jint in_fd = (e)->CallIntMethod(j, native_inotify_getFileDescriptor);
-    jint pr = (e)->CallIntMethod(j, native_inotify_getPipeRead);
-    fd_set watchset;
+    jint pip_fd = (e)->CallIntMethod(j, native_inotify_getPipeRead);
     jthrowable thrwbl;
     char *buf;
+    int nfds;
+
+    // XXX any argument > 0 to epoll_create
+    int epfd = epoll_create(1);
+
+    if (epfd == -1) {
+        debug("epoll_create() failed (" << errno << "): " << strerror(errno));
+        (e)->ThrowNew(inotify_exception, strerror(errno));
+        goto END_READ;
+    }
+
+    struct epoll_event epev_in, epev_pip;
+    struct epoll_event epev;
+
+    epev_in.events = EPOLLIN;
+    epev_in.data.fd = in_fd;
+    if (epoll_ctl(epfd, EPOLL_CTL_ADD, in_fd, &epev_in) == -1) {
+        debug("epoll_ctl() failed (" << errno << "): " << strerror(errno));
+        (e)->ThrowNew(inotify_exception, strerror(errno));
+        goto END_READ;
+    }
+
+    epev_pip.events = EPOLLIN;
+    epev_pip.data.fd = pip_fd;
+    if (epoll_ctl(epfd, EPOLL_CTL_ADD, pip_fd, &epev_pip) == -1) {
+        debug("epoll_ctl() failed (" << errno << "): " << strerror(errno));
+        (e)->ThrowNew(inotify_exception, strerror(errno));
+        goto END_READ;
+    }
 
     while (true) {
-        FD_ZERO(&watchset);
-        FD_SET(in_fd, &watchset);
-        FD_SET(pr, &watchset);
-        int nfds = max(in_fd, pr);
+        // Wait indefinitely for an event
+        nfds = epoll_wait(epfd, &epev, 1, -1);
 
-        int selval = select(nfds + 1, &watchset, NULL, NULL, NULL);
-        if (selval < 0) {
-            debug("select() failed (" << errno << "): " << strerror(errno));
+        if (nfds == -1) {
+            debug("epoll_wait() failed (" << errno << "): " << strerror(errno));
             (e)->ThrowNew(inotify_exception, strerror(errno));
             goto END_READ;
         }
 
-        if (FD_ISSET(pr, &watchset)) {
+        if (epev.data.fd == pip_fd) {
             debug("close invoked, returning from read");
             goto END_READ;
         }
@@ -397,7 +423,7 @@ EXCEPTION_OCCURRED:
 
 END_READ:
     if (buf) free(buf);
-    close(pr);
+    close(pip_fd);
     close(in_fd);
     return;
 }

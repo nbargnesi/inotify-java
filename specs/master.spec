@@ -39,7 +39,7 @@ Group: Development/Libraries/Java
 # doesn't actively make use of this tag. The data is stored in the package
 # however, and will be written into RPM's database when the package is
 # installed.
-URL: http://launchpad.net/inotify-java
+URL: https://bitbucket.org/nbargnesi/inotify-java
 
 # The packager tag is used to hold the name and contact information for the
 # person or persons who built the package. Normally, this would be the person

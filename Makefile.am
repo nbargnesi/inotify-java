@@ -14,3 +14,5 @@ SUBDIRS = src
 
 mc: maintainer-clean
 
+clean-local:
+	-rm inotify-java*tar*

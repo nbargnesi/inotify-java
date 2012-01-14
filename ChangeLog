@@ -1,3 +1,504 @@
+2012-01-14  Nick Bargnesi  <nick@den-4.com>
+
+	* Makefile.am, Makefile.in:
+	Remove inotify-java*tar* in clean.
+	[42f681f430aa] [tip]
+
+2012-01-13  Nick Bargnesi  <nick@den-4.com>
+
+	* Makefile.am, Makefile.in, configure, configure.in, inotify-
+	java-2.0.pc.in, inotify-java-2.1.pc.in, src/cpp/Makefile.am,
+	src/cpp/Makefile.in, src/java/Makefile.am, src/java/Makefile.in:
+	Start round of fixes to repair dist-xxx targets.
+	[67d1c3fd2ce9]
+
+	* src/java/build.xml:
+	Make LibraryMain the JAR MANIFEST's Main-Class attribute.
+	[2ca278c5dce7]
+
+	* src/java/build.xml:
+	Exclude bootstrap and utilities.
+	[2ca90905d2b7] <java6>
+
+	* src/cpp/inotify-interface.cpp, src/cpp/inotify-interface.h,
+	src/cpp/typedefs.h:
+	Trade epoll for select.
+	[c5cf9635e338] <java6>
+
+	* specs/fedora.spec, specs/master.spec, specs/suse.spec:
+	Update URL in specs.
+	[1a952ab77cbb] <java6>
+
+	* specs/fedora.spec, specs/master.spec, specs/suse.spec:
+	Update specs for RPM builds. These will most likely stay up-to-date
+	with each release. I have no plans to generate RPMs for inotify-java
+	however.
+	[20f2f5a9491d] <java6>
+
+	* specs/fedora.spec, specs/master.spec, specs/suse.spec:
+	Update URL in specs.
+	[26bc8cf93aa6]
+
+	* COPYING.LESSER, TODO, configure,
+	src/java/classes/com/den_4/inotify_java/ConcurrentReader.java,
+	src/java/classes/com/den_4/inotify_java/Demo.java,
+	src/java/classes/com/den_4/inotify_java/Event.java,
+	src/java/classes/com/den_4/inotify_java/EventQueueFull.java,
+	src/java/classes/com/den_4/inotify_java/Inotify.java,
+	src/java/classes/com/den_4/inotify_java/InotifyContext.java,
+	src/java/classes/com/den_4/inotify_java/InotifyEvent.java,
+	src/java/classes/com/den_4/inotify_java/InotifyEventListener.java,
+	src/java/classes/com/den_4/inotify_java/InotifyUtilities.java,
+	src/java/classes/com/den_4/inotify_java/LibraryMain.java,
+	src/java/classes/com/den_4/inotify_java/MonitorService.java,
+	src/java/classes/com/den_4/inotify_java/NativeInotify.java,
+	src/java/classes/com/den_4/inotify_java/NonThreadSafe.java,
+	src/java/classes/com/den_4/inotify_java/ThreadSafe.java,
+	src/java/classes/com/den_4/inotify_java/Watcher.java,
+	src/java/classes/com/den_4/inotify_java/enums/Event.java,
+	src/java/classes/com/den_4/inotify_java/enums/EventModifier.java,
+	src/java/classes/com/den_4/inotify_java/enums/WatchModifier.java, sr
+	c/java/classes/com/den_4/inotify_java/exceptions/InotifyError.java, s
+	rc/java/classes/com/den_4/inotify_java/exceptions/InotifyException.j
+	ava, src/java/classes/com/den_4/inotify_java/exceptions/Insufficient
+	KernelMemoryException.java, src/java/classes/com/den_4/inotify_java/
+	exceptions/InvalidFileDescriptorException.java, src/java/classes/com
+	/den_4/inotify_java/exceptions/InvalidWatchDescriptorException.java,
+	src/java/classes/com/den_4/inotify_java/exceptions/OutsideAddressSpa
+	ceException.java, src/java/classes/com/den_4/inotify_java/exceptions
+	/PermissionDenied.java, src/java/classes/com/den_4/inotify_java/exce
+	ptions/ReadAccessDeniedException.java, src/java/classes/com/den_4/in
+	otify_java/exceptions/SystemLimitException.java, src/java/classes/co
+	m/den_4/inotify_java/exceptions/UserInstanceLimitException.java, src
+	/java/classes/com/den_4/inotify_java/exceptions/UserWatchLimitExcept
+	ion.java,
+	src/java/test/com/den_4/inotify_java/InotifyContextTest.java,
+	src/java/test/com/den_4/inotify_java/InotifyUtilitiesTest.java,
+	src/java/test/com/den_4/inotify_java/Test592201.java,
+	src/java/test/com/den_4/inotify_java/Utilities.java:
+	Updates for 2.1.
+
+	Properly handle overflow events, add support for out-of-order
+	priority EventQueueFull events, and introduce a base event class to
+	better allow for sending EventQueueFull events out of the
+	MonitorService handler.
+	[6b7753ce73d2]
+
+	* src/java/build.xml:
+	Exclude bootstrap and utilities.
+	[cd9b0463b79b]
+
+	* src/cpp/inotify-interface.cpp, src/cpp/inotify-interface.h,
+	src/cpp/typedefs.h:
+	Trade epoll for select.
+	[561c80c1aac3]
+
+	* specs/fedora.spec, specs/master.spec, specs/suse.spec:
+	Update specs for RPM builds. These will most likely stay up-to-date
+	with each release. I have no plans to generate RPMs for inotify-java
+	however.
+	[66cc4d64dd5a]
+
+	* helpers/filesystem_load_simulator.py:
+	Merge
+	[4a50ce74e33a]
+
+2011-11-04  Nick Bargnesi  <nick@den-4.com>
+
+	* src/java/classes/com/den_4/inotify_java/MonitorService.java:
+	Unused import.
+	[d9b8ac96ecc0]
+
+	* helpers/filesystem_load_simulator.py:
+	Daemonize all the event threads. Update arguments and help.
+	[a2fa75eb793d]
+
+	* src/java/classes/com/den_4/inotify_java/MonitorService.java:
+	Unused import.
+	[eff167beb0ba] <java6>
+
+	* helpers/filesystem_load_simulator.py:
+	Daemonize all the event threads. Update arguments and help.
+	[9d27b510647d] <java6>
+
+2011-10-29  Nick Bargnesi  <nick@den-4.com>
+
+	* src/java/build.xml,
+	src/java/test/com/den_4/inotify_java/Utilities.java:
+	Add @Test to Utilities method.
+	[ffc7c100e9bb]
+
+	* src/java/build.xml:
+	Skip test of **/Utilites.java.
+	[22713c502ae7]
+
+	* src/java/classes/com/den_4/inotify_java/MonitorService.java:
+	Use the event's method for checking existence of masks.
+	[9237c0aec822]
+
+	* src/java/build.xml:
+	Only test *Test*.java classes.
+	[792c6a23c30f]
+
+	* src/java/build.xml,
+	src/java/test/com/den_4/inotify_java/Utilities.java:
+	Add @Test to Utilities method.
+	[ad4212babc07] <java6>
+
+	* src/java/build.xml:
+	Skip test of **/Utilites.java.
+	[f099e02a42d2] <java6>
+
+	* src/java/classes/com/den_4/inotify_java/MonitorService.java:
+	Use the event's method for checking existence of masks.
+	[23aa0ef9710e] <java6>
+
+	* src/java/build.xml:
+	Only test *Test*.java classes.
+	[8e1030bbbda5] <java6>
+
+2012-01-13  Nick Bargnesi  <nick@den-4.com>
+
+	* helpers/filesystem_load_simulator.py:
+	Add encoding (per PEP-0263) and copyright info.
+	[dfe5b7e72324]
+
+2011-10-28  Nick Bargnesi  <nick@den-4.com>
+
+	* src/java/test/com/den_4/inotify_java/TestBootstrap.java,
+	src/java/test/com/den_4/inotify_java/Utilities.java:
+	Rename TestBootstrap -> Utilities.
+	[5003476c6b1b]
+
+	* src/java/test/com/den_4/inotify_java/TestBootstrap.java,
+	src/java/test/com/den_4/inotify_java/Utilities.java:
+	Rename TestBootstrap -> Utilities.
+	[f8a69b9c1b95] <java6>
+
+	* src/java/test/com/den_4/inotify_java/Test592201.java:
+	Rename method to resolve ambiguity.
+	[98dfe90e8e62]
+
+	* src/java/classes/com/den_4/inotify_java/NativeInotify.java:
+	Address documentation in event handler warning of taking too much
+	time away from processing the native inotify queue.
+	[408584fe9fd1]
+
+	* src/cpp/inotify-interface.cpp, src/cpp/inotify-interface.h,
+	src/cpp/typedefs.h:
+	Check for allocation failures. Allocation failures result in
+	returning from the read function and dumping an exception or a
+	allocation failure msg to stderr.
+	[207556f658be]
+
+	* src/java/test/com/den_4/inotify_java/Test592201.java:
+	Rename method to resolve ambiguity.
+	[d70f15d14111] <java6>
+
+	* src/java/classes/com/den_4/inotify_java/NativeInotify.java:
+	Address documentation in event handler warning of taking too much
+	time away from processing the native inotify queue.
+	[64a24ec959ae] <java6>
+
+	* src/cpp/inotify-interface.cpp, src/cpp/inotify-interface.h,
+	src/cpp/typedefs.h:
+	Check for allocation failures. Allocation failures result in
+	returning from the read function and dumping an exception or a
+	allocation failure msg to stderr.
+	[28023d6b541f] <java6>
+
+2011-10-24  Nick Bargnesi  <nick@den-4.com>
+
+	* src/java/build.xml:
+	Merge in d0e2c00b3fe5 from java6 and bump srcver to 1.7.
+	[ce95711318cf]
+
+	* src/java/build.xml:
+	Make version and srcver properties.
+	[647d172cd138]
+
+	* Make version and source version properties.
+	[15e727ba8076] <java6>
+
+	* src/java/build.xml:
+	Make version and srcver properties.
+	[d0e2c00b3fe5] <java6>
+
+	* src/java/classes/com/den_4/inotify_java/InotifyUtilities.java,
+	src/java/test/com/den_4/inotify_java/TestBootstrap.java:
+	Simplify try/catch.
+	[43cf6d55f076]
+
+	* src/java/test/com/den_4/inotify_java/Test592201.java:
+	Relocate statement to avoid static analysis warning.
+	[fa322807ad57]
+
+	* src/java/classes/com/den_4/inotify_java/enums/EventModifier.java,
+	src/java/classes/com/den_4/inotify_java/enums/WatchModifier.java:
+	Make fromString variants static.
+	[4c3a39d4d9a6]
+
+	* src/java/classes/com/den_4/inotify_java/InotifyUtilities.java,
+	src/java/test/com/den_4/inotify_java/TestBootstrap.java:
+	Simplify try/catch.
+	[8a13d1cc4238] <java6>
+
+	* src/java/test/com/den_4/inotify_java/Test592201.java:
+	Relocate statement to avoid static analysis warning.
+	[8237f1add5fd] <java6>
+
+	* src/java/classes/com/den_4/inotify_java/enums/EventModifier.java,
+	src/java/classes/com/den_4/inotify_java/enums/WatchModifier.java:
+	Make fromString variants static.
+	[d924a9bd556b] <java6>
+
+	* src/java/classes/com/den_4/inotify_java/InotifyContext.java,
+	src/java/classes/com/den_4/inotify_java/InotifyUtilities.java,
+	src/java/classes/com/den_4/inotify_java/MonitorService.java,
+	src/java/classes/com/den_4/inotify_java/Watcher.java,
+	src/java/classes/com/den_4/inotify_java/enums/Event.java,
+	src/java/classes/com/den_4/inotify_java/enums/EventModifier.java,
+	src/java/classes/com/den_4/inotify_java/enums/WatchModifier.java,
+	src/java/test/com/den_4/inotify_java/InotifyContextTest.java:
+	Update to Java 7 syntax.
+	[47c3766f3849]
+
+2011-10-23  Nick Bargnesi  <nick@den-4.com>
+
+	* src/cpp/Makefile.am, src/cpp/Makefile.in:
+	Merge 7ffa2f465c6e from java6.
+
+	summary: Version soname to 2.1.0, bump ignores.
+	[89919660369d]
+
+	* .hgignore, src/cpp/Makefile.am, src/cpp/Makefile.in:
+	Version soname to 2.1.0, bump ignores.
+	[7ffa2f465c6e] <java6>
+
+	* .hgignore:
+	Update ignores (src/java/reports).
+	[2d62d61e19b0]
+
+	* src/java/build.xml,
+	src/java/test/com/den_4/inotify_java/Test592201.java,
+	src/java/test/com/den_4/inotify_java/TestBootstrap.java:
+	Load library programmatically on behalf of tests.
+	[7e611c07507c]
+
+	* .hgignore:
+	Update ignores (src/java/reports).
+	[2a4f2bba3cf5] <java6>
+
+	* src/java/build.xml,
+	src/java/test/com/den_4/inotify_java/Test592201.java,
+	src/java/test/com/den_4/inotify_java/TestBootstrap.java:
+	Load library programmatically on behalf of tests.
+	[c1422be8c9e7] <java6>
+
+2011-10-22  Nick Bargnesi  <nick@den-4.com>
+
+	* src/java/classes/com/den_4/inotify_java/NativeInotify.java:
+	Fix build.
+	[72a3b903b763]
+
+	* src/java/classes/com/den_4/inotify_java/NativeInotify.java:
+	Fix build.
+	[616467d0a76b] <java6>
+
+	* src/java/classes/com/den_4/inotify_java/ConcurrentReader.java,
+	src/java/classes/com/den_4/inotify_java/EventQueueFull.java,
+	src/java/classes/com/den_4/inotify_java/FileSizeDecreasedEvent.java,
+	src/java/classes/com/den_4/inotify_java/FileSizeIncreasedEvent.java,
+	src/java/classes/com/den_4/inotify_java/Inotify.java,
+	src/java/classes/com/den_4/inotify_java/InotifyContext.java,
+	src/java/classes/com/den_4/inotify_java/InotifyEvent.java,
+	src/java/classes/com/den_4/inotify_java/InotifyEventListener.java,
+	src/java/classes/com/den_4/inotify_java/InotifyUtilities.java,
+	src/java/classes/com/den_4/inotify_java/MonitorService.java,
+	src/java/classes/com/den_4/inotify_java/NativeInotify.java,
+	src/java/classes/com/den_4/inotify_java/NonThreadSafe.java,
+	src/java/classes/com/den_4/inotify_java/ThreadSafe.java,
+	src/java/classes/com/den_4/inotify_java/Watcher.java,
+	src/java/classes/com/den_4/inotify_java/enums/Event.java,
+	src/java/classes/com/den_4/inotify_java/enums/EventModifier.java,
+	src/java/classes/com/den_4/inotify_java/enums/WatchModifier.java, sr
+	c/java/classes/com/den_4/inotify_java/exceptions/InotifyError.java, s
+	rc/java/classes/com/den_4/inotify_java/exceptions/InotifyException.j
+	ava, src/java/classes/com/den_4/inotify_java/exceptions/Insufficient
+	KernelMemoryException.java, src/java/classes/com/den_4/inotify_java/
+	exceptions/InvalidFileDescriptorException.java, src/java/classes/com
+	/den_4/inotify_java/exceptions/InvalidWatchDescriptorException.java,
+	src/java/classes/com/den_4/inotify_java/exceptions/OutsideAddressSpa
+	ceException.java, src/java/classes/com/den_4/inotify_java/exceptions
+	/PermissionDenied.java, src/java/classes/com/den_4/inotify_java/exce
+	ptions/ReadAccessDeniedException.java, src/java/classes/com/den_4/in
+	otify_java/exceptions/SystemLimitException.java, src/java/classes/co
+	m/den_4/inotify_java/exceptions/UserInstanceLimitException.java, src
+	/java/classes/com/den_4/inotify_java/exceptions/UserWatchLimitExcept
+	ion.java,
+	src/java/test/com/den_4/inotify_java/InotifyContextTest.java,
+	src/java/test/com/den_4/inotify_java/InotifyUtilitiesTest.java,
+	src/java/test/com/den_4/inotify_java/Test592201.java:
+	Code cleanup, closes issue 1.
+	[551021a30bbf]
+
+	* .hgignore:
+	Update ignores.
+	[5664b6b0f145]
+
+	* src/java/classes/com/den_4/inotify_java/ConcurrentReader.java,
+	src/java/classes/com/den_4/inotify_java/EventQueueFull.java,
+	src/java/classes/com/den_4/inotify_java/FileSizeDecreasedEvent.java,
+	src/java/classes/com/den_4/inotify_java/FileSizeIncreasedEvent.java,
+	src/java/classes/com/den_4/inotify_java/Inotify.java,
+	src/java/classes/com/den_4/inotify_java/InotifyContext.java,
+	src/java/classes/com/den_4/inotify_java/InotifyEvent.java,
+	src/java/classes/com/den_4/inotify_java/InotifyEventListener.java,
+	src/java/classes/com/den_4/inotify_java/InotifyUtilities.java,
+	src/java/classes/com/den_4/inotify_java/MonitorService.java,
+	src/java/classes/com/den_4/inotify_java/NativeInotify.java,
+	src/java/classes/com/den_4/inotify_java/NonThreadSafe.java,
+	src/java/classes/com/den_4/inotify_java/ThreadSafe.java,
+	src/java/classes/com/den_4/inotify_java/Watcher.java,
+	src/java/classes/com/den_4/inotify_java/enums/Event.java,
+	src/java/classes/com/den_4/inotify_java/enums/EventModifier.java,
+	src/java/classes/com/den_4/inotify_java/enums/WatchModifier.java, sr
+	c/java/classes/com/den_4/inotify_java/exceptions/InotifyError.java, s
+	rc/java/classes/com/den_4/inotify_java/exceptions/InotifyException.j
+	ava, src/java/classes/com/den_4/inotify_java/exceptions/Insufficient
+	KernelMemoryException.java, src/java/classes/com/den_4/inotify_java/
+	exceptions/InvalidFileDescriptorException.java, src/java/classes/com
+	/den_4/inotify_java/exceptions/InvalidWatchDescriptorException.java,
+	src/java/classes/com/den_4/inotify_java/exceptions/OutsideAddressSpa
+	ceException.java, src/java/classes/com/den_4/inotify_java/exceptions
+	/PermissionDenied.java, src/java/classes/com/den_4/inotify_java/exce
+	ptions/ReadAccessDeniedException.java, src/java/classes/com/den_4/in
+	otify_java/exceptions/SystemLimitException.java, src/java/classes/co
+	m/den_4/inotify_java/exceptions/UserInstanceLimitException.java, src
+	/java/classes/com/den_4/inotify_java/exceptions/UserWatchLimitExcept
+	ion.java,
+	src/java/test/com/den_4/inotify_java/InotifyContextTest.java,
+	src/java/test/com/den_4/inotify_java/InotifyUtilitiesTest.java,
+	src/java/test/com/den_4/inotify_java/Test592201.java:
+	Code cleanup, closes issue 1.
+	[f5f585601969] <java6>
+
+	* .hgignore:
+	Update ignores.
+	[2fc65f988be5] <java6>
+
+	* .hgignore, NEWS:
+	Remove copyright notice and update ignores.
+	[dc73af48e6cb] <java6>
+
+	* config.h.in, configure, configure.in:
+	Update issue tracker URL and check for Java 6.
+	[887ae2a9c48e] <java6>
+
+2011-10-21  Nick Bargnesi  <nick@den-4.com>
+
+	* Start java6 branch.
+	[0bbc4e3e801c] <java6>
+
+2011-10-22  Nick Bargnesi  <nick@den-4.com>
+
+	* .hgignore:
+	Update ignores.
+	[c8b712758797]
+
+	* .hgignore, NEWS:
+	Remove copyright notice and update ignores.
+	[fda11efc3f22]
+
+	* config.h.in, configure, configure.in:
+	Check for java version 1.7*.
+	[ba542c25b991]
+
+2011-10-08  Nick Bargnesi  <nick@den-4.com>
+
+	* configure, src/cpp/Makefile.am, src/cpp/Makefile.in:
+	Add symlink target to cpp build.
+	[41028b8a4a09]
+
+	* Merge.
+	[a147c827ec34]
+
+	* src/java/classes/com/den_4/inotify_java/Fluctuator.java,
+	src/java/classes/com/den_4/inotify_java/FluctuatorListener.java,
+	src/java/test/com/den_4/inotify_java/FluctuatorTest.java:
+	Remove the fluctuator.
+	[8ade71a018da]
+
+2011-10-02  Nick Bargnesi  <nick@den-4.com>
+
+	* configure, src/java/build.xml:
+	Change junit output to XML.
+	[2a455a0cc0ae]
+
+2011-10-01  Nick Bargnesi  <nick@den-4.com>
+
+	* .hgignore:
+	Update ignores.
+	[f7607f306b04]
+
+	* aclocal.m4, configure, src/java/Makefile.am, src/java/Makefile.in,
+	src/java/build.xml:
+	Specify includeantruntime and invoke 'ant clean' in clean local.
+	[7663f565875c]
+
+2011-09-30  Nick Bargnesi  <nick@den-4.com>
+
+	* AUTHORS, CONVENTIONS, COPYING, CREDITS, ChangeLog, INSTALL, LICENSE,
+	Makefile.am, Makefile.in, NEWS, README, TODO, aclocal.m4,
+	config.guess, config.h.in, config.sub, configure, configure.in,
+	depcomp, helpers/filesystem_load_simulator.py, inotify-
+	java-2.0.pc.in, install-sh, lib/junit4-4.8.2.jar, missing,
+	specs/fedora.spec, specs/master.spec, specs/suse.spec,
+	src/Makefile.am, src/Makefile.in, src/cpp/Makefile.am,
+	src/cpp/Makefile.in, src/cpp/inotify-interface.cpp, src/cpp/inotify-
+	interface.h, src/cpp/typedefs.h, src/java/Makefile.am,
+	src/java/Makefile.in, src/java/build.xml,
+	src/java/classes/com/den_4/inotify_java/ConcurrentReader.java,
+	src/java/classes/com/den_4/inotify_java/EventQueueFull.java,
+	src/java/classes/com/den_4/inotify_java/FileSizeDecreasedEvent.java,
+	src/java/classes/com/den_4/inotify_java/FileSizeIncreasedEvent.java,
+	src/java/classes/com/den_4/inotify_java/Fluctuator.java,
+	src/java/classes/com/den_4/inotify_java/FluctuatorListener.java,
+	src/java/classes/com/den_4/inotify_java/Inotify.java,
+	src/java/classes/com/den_4/inotify_java/InotifyContext.java,
+	src/java/classes/com/den_4/inotify_java/InotifyEvent.java,
+	src/java/classes/com/den_4/inotify_java/InotifyEventListener.java,
+	src/java/classes/com/den_4/inotify_java/InotifyUtilities.java,
+	src/java/classes/com/den_4/inotify_java/MonitorService.java,
+	src/java/classes/com/den_4/inotify_java/NativeInotify.java,
+	src/java/classes/com/den_4/inotify_java/NonThreadSafe.java,
+	src/java/classes/com/den_4/inotify_java/ThreadSafe.java,
+	src/java/classes/com/den_4/inotify_java/Watcher.java,
+	src/java/classes/com/den_4/inotify_java/enums/Event.java,
+	src/java/classes/com/den_4/inotify_java/enums/EventModifier.java,
+	src/java/classes/com/den_4/inotify_java/enums/WatchModifier.java, sr
+	c/java/classes/com/den_4/inotify_java/exceptions/InotifyError.java, s
+	rc/java/classes/com/den_4/inotify_java/exceptions/InotifyException.j
+	ava, src/java/classes/com/den_4/inotify_java/exceptions/Insufficient
+	KernelMemoryException.java, src/java/classes/com/den_4/inotify_java/
+	exceptions/InvalidFileDescriptorException.java, src/java/classes/com
+	/den_4/inotify_java/exceptions/InvalidWatchDescriptorException.java,
+	src/java/classes/com/den_4/inotify_java/exceptions/OutsideAddressSpa
+	ceException.java, src/java/classes/com/den_4/inotify_java/exceptions
+	/PermissionDenied.java, src/java/classes/com/den_4/inotify_java/exce
+	ptions/ReadAccessDeniedException.java, src/java/classes/com/den_4/in
+	otify_java/exceptions/SystemLimitException.java, src/java/classes/co
+	m/den_4/inotify_java/exceptions/UserInstanceLimitException.java, src
+	/java/classes/com/den_4/inotify_java/exceptions/UserWatchLimitExcept
+	ion.java, src/java/stylesheet.css,
+	src/java/test/com/den_4/inotify_java/FluctuatorTest.java,
+	src/java/test/com/den_4/inotify_java/InotifyContextTest.java,
+	src/java/test/com/den_4/inotify_java/InotifyUtilitiesTest.java,
+	src/java/test/com/den_4/inotify_java/Test592201.java:
+	Initial import of bzr+ssh://bazaar.launchpad.net/%2Bbranch/inotify-
+	java/trunk/ revision 65.
+	[0627b6c87a55]
+
 2010-06-12  Nick Bargnesi  <nick@den-4.com>
 
 	Applied patch for bug #592201.

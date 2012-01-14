@@ -1,5 +1,10 @@
 pkgconfigdir = $(libdir)/pkgconfig
-nodist_pkgconfig_DATA = @PACKAGE_NAME@-2.0.pc
+nodist_pkgconfig_DATA = @PACKAGE_NAME@-2.1.pc
+
+EXTRA_DIST = inotify-java-2.1.pc.in \
+			 helpers \
+			 lib \
+			 specs
 
 # Language-specific source location
 CPP_SOURCE = src/cpp

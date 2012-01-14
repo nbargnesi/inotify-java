@@ -143,6 +143,10 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+EXTRA_DIST = inotify-interface.cpp \
+	     inotify-interface.h \
+	     typedefs.h
+
 
 # Version information
 MAJOR_VERSION = 2
@@ -347,16 +351,16 @@ uninstall-am:
 
 
 $(SO_FILE): typedefs.h \
-	inotify-interface.h \
-	inotify-interface.cpp
-	$(CXX) $(CXXFLAGS) @DEBUG@ @DEFINES@ -o $@ $(LDFLAGS) inotify-interface.cpp
+	    inotify-interface.h \
+	    inotify-interface.cpp
+	    $(CXX) $(CXXFLAGS) @DEBUG@ @DEFINES@ -o $@ $(LDFLAGS) inotify-interface.cpp
 
 symlink:
 	@if [ ! -L '$(SO_NAME)' ]; then \
-		ln -sv $(SO_FILE) $(SO_NAME); \
+	    ln -sv $(SO_FILE) $(SO_NAME); \
 	fi
 	@if [ ! -L '$(LD_SYMLINK)' ]; then \
-		ln -sv $(SO_NAME) $(LD_SYMLINK); \
+	    ln -sv $(SO_NAME) $(LD_SYMLINK); \
 	fi
 
 install-exec-local: symlink

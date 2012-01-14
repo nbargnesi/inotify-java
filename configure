@@ -5120,7 +5120,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile src/cpp/Makefile src/java/Makefile inotify-java-2.0.pc"
+ac_config_files="$ac_config_files Makefile src/Makefile src/cpp/Makefile src/java/Makefile inotify-java-2.1.pc"
 
 
 cat >confcache <<\_ACEOF
@@ -5866,7 +5866,7 @@ do
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "src/cpp/Makefile") CONFIG_FILES="$CONFIG_FILES src/cpp/Makefile" ;;
     "src/java/Makefile") CONFIG_FILES="$CONFIG_FILES src/java/Makefile" ;;
-    "inotify-java-2.0.pc") CONFIG_FILES="$CONFIG_FILES inotify-java-2.0.pc" ;;
+    "inotify-java-2.1.pc") CONFIG_FILES="$CONFIG_FILES inotify-java-2.1.pc" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

@@ -143,6 +143,10 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+EXTRA_DIST = build.xml \
+	     classes \
+	     test
+
 JAVAC_ARGS = -g -Xlint:-serial
 JAR_DIST = @PACKAGE_NAME@-@VERSION@.jar
 all: all-am

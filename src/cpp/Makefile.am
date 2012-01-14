@@ -1,3 +1,7 @@
+EXTRA_DIST = inotify-interface.cpp \
+	     inotify-interface.h \
+	     typedefs.h
+
 # Version information
 MAJOR_VERSION = 2
 MINOR_VERSION = 1
@@ -23,16 +27,16 @@ JAVA_H_CLASS = com.den_4.inotify_java.NativeInotify
 BUILT_SOURCES = $(JAVA_H) $(SO_FILE) symlink
 
 $(SO_FILE): typedefs.h \
-	inotify-interface.h \
-	inotify-interface.cpp
-	$(CXX) $(CXXFLAGS) @DEBUG@ @DEFINES@ -o $@ $(LDFLAGS) inotify-interface.cpp
+	    inotify-interface.h \
+	    inotify-interface.cpp
+	    $(CXX) $(CXXFLAGS) @DEBUG@ @DEFINES@ -o $@ $(LDFLAGS) inotify-interface.cpp
 
 symlink:
 	@if [ ! -L '$(SO_NAME)' ]; then \
-		ln -sv $(SO_FILE) $(SO_NAME); \
+	    ln -sv $(SO_FILE) $(SO_NAME); \
 	fi
 	@if [ ! -L '$(LD_SYMLINK)' ]; then \
-		ln -sv $(SO_NAME) $(LD_SYMLINK); \
+	    ln -sv $(SO_NAME) $(LD_SYMLINK); \
 	fi
 
 install-exec-local: symlink

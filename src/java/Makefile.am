@@ -1,3 +1,7 @@
+EXTRA_DIST = build.xml \
+	     classes \
+	     test
+
 JAVAC_ARGS = -g -Xlint:-serial
 JAR_DIST = @PACKAGE_NAME@-@VERSION@.jar
 

@@ -22,7 +22,13 @@
 
     <target name='build' depends='compile'
         description='creates a jar'>
-        <jar destfile='${ant.project.name}-${version}.jar' basedir='classes'/>
+        <jar destfile='${ant.project.name}-${version}.jar' basedir='classes'>
+            <manifest>
+                <attribute
+                    name="Main-Class"
+                    value="com.den_4.inotify_java.LibraryMain"/>
+            </manifest>
+        </jar>
     </target>
 
     <target name='apidoc'

@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
+ * Copyright © 2009-2012 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,12 +21,9 @@
  */
 package com.den_4.inotify_java;
 
-import static com.den_4.inotify_java.enums.EventModifier.Event_Queue_Overflow;
-
 import java.util.Set;
 
 import com.den_4.inotify_java.enums.Event;
-import com.den_4.inotify_java.enums.EventModifier;
 import com.den_4.inotify_java.enums.WatchModifier;
 import com.den_4.inotify_java.exceptions.InotifyException;
 import com.den_4.inotify_java.exceptions.InvalidWatchDescriptorException;
@@ -80,27 +77,38 @@ public class Inotify extends ConcurrentReader {
      */
     @Override
     void eventHandler(InotifyEvent e) {
-        if (EventModifier.isSet(Event_Queue_Overflow, e.getMask())) {
-            final EventQueueFull eqf = new EventQueueFull(fileDescriptor);
-            for (final InotifyEventListener l : context.getListeners())
-                l.queueFull(eqf);
+
+        BaseEvent be = e;
+        boolean overflow = false;
+        if (e.isOverflowed()) {
+            be = new EventQueueFull(fileDescriptor);
+            overflow = true;
         }
 
         String path = null;
         if (e.getName() != null) {
             path = context.getPath(e.getSource());
             if (path != null) {
+                String name = e.getName();
                 if (path.charAt(path.length() - 1) == '/')
-                    e.setContextualName(path + e.getName());
+                    e.setContextualName(path + name);
                 else
-                    e.setContextualName(path + '/' + e.getName());
+                    e.setContextualName(path + '/' + name);
             }
         }
 
-        int wd = e.getSource();
-        Set<InotifyEventListener> queue = context.getListeners(wd);
-        for (final InotifyEventListener l : queue) {
-            l.filesystemEventOccurred(e);
+        Set<InotifyEventListener> lstnrs;
+        if (overflow) {
+            lstnrs = context.getListeners();
+            for (final InotifyEventListener l : lstnrs) {
+                l.queueFull((EventQueueFull) be);
+            }
+        } else {
+            int wd = e.getSource();
+            lstnrs = context.getListeners(wd);
+            for (final InotifyEventListener l : lstnrs) {
+                l.filesystemEventOccurred(e);
+            }
         }
 
         if (e.isIgnored()) {

@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
+ * Copyright © 2009-2012 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,7 +22,8 @@
 
 package com.den_4.inotify_java;
 
-import java.util.EventObject;
+import static com.den_4.inotify_java.enums.Event.*;
+import static com.den_4.inotify_java.enums.EventModifier.*;
 
 import com.den_4.inotify_java.enums.Event;
 import com.den_4.inotify_java.enums.EventModifier;
@@ -34,7 +35,7 @@ import com.den_4.inotify_java.enums.EventModifier;
  * 
  * @author Nick Bargnesi
  */
-public class InotifyEvent extends EventObject {
+public class InotifyEvent extends BaseEvent {
     private static final long serialVersionUID = 8331727353112279301L;
 
     /** Contains the mask information associated with this event. */
@@ -117,10 +118,11 @@ public class InotifyEvent extends EventObject {
      * occurred.
      * 
      * @return Watch descriptor responsible for this event
+     * @see NativeInotify#addWatch(String, int)
      */
     @Override
     public Integer getSource() {
-        return (Integer) super.getSource();
+        return super.getSource();
     }
 
     /**
@@ -182,7 +184,7 @@ public class InotifyEvent extends EventObject {
      * is set, {@code false} otherwise
      */
     public boolean isAccess() {
-        return (Event.isSet(Event.Access, mask));
+        return (isSet(Access, mask));
     }
 
     /**
@@ -194,7 +196,7 @@ public class InotifyEvent extends EventObject {
      * {@code false} otherwise
      */
     public boolean isCloseNoWrite() {
-        return (Event.isSet(Event.Close_No_Write, mask));
+        return (isSet(Close_No_Write, mask));
     }
 
     /**
@@ -206,7 +208,7 @@ public class InotifyEvent extends EventObject {
      * {@code false} otherwise
      */
     public boolean isCloseWrite() {
-        return (Event.isSet(Event.Close_Write, mask));
+        return (isSet(Close_Write, mask));
     }
 
     /**
@@ -217,7 +219,7 @@ public class InotifyEvent extends EventObject {
      * is set, {@code false} otherwise
      */
     public boolean isClose() {
-        return (Event.isSet(Event.Close, mask));
+        return (isSet(Close, mask));
     }
 
     /**
@@ -228,7 +230,7 @@ public class InotifyEvent extends EventObject {
      * is set, {@code false} otherwise
      */
     public boolean isCreate() {
-        return (Event.isSet(Event.Create, mask));
+        return (isSet(Create, mask));
     }
 
     /**
@@ -239,7 +241,7 @@ public class InotifyEvent extends EventObject {
      * is set, {@code false} otherwise
      */
     public boolean isDelete() {
-        return (Event.isSet(Event.Delete, mask));
+        return (isSet(Delete, mask));
     }
 
     /**
@@ -251,7 +253,7 @@ public class InotifyEvent extends EventObject {
      * {@code false} otherwise
      */
     public boolean isDeleteSelf() {
-        return (Event.isSet(Event.Delete_Self, mask));
+        return (isSet(Delete_Self, mask));
     }
 
     /**
@@ -263,7 +265,7 @@ public class InotifyEvent extends EventObject {
      * otherwise
      */
     public boolean isMetadata() {
-        return (Event.isSet(Event.Metadata, mask));
+        return (isSet(Metadata, mask));
     }
 
     /**
@@ -274,7 +276,7 @@ public class InotifyEvent extends EventObject {
      * is set, {@code false} otherwise
      */
     public boolean isModify() {
-        return (Event.isSet(Event.Modify, mask));
+        return (isSet(Modify, mask));
     }
 
     /**
@@ -286,7 +288,7 @@ public class InotifyEvent extends EventObject {
      * {@code false} otherwise
      */
     public boolean isMoveSelf() {
-        return (Event.isSet(Event.Move_Self, mask));
+        return (isSet(Move_Self, mask));
     }
 
     /**
@@ -298,7 +300,7 @@ public class InotifyEvent extends EventObject {
      * {@code false} otherwise
      */
     public boolean isMovedFrom() {
-        return (Event.isSet(Event.Moved_From, mask));
+        return (isSet(Moved_From, mask));
     }
 
     /**
@@ -310,7 +312,7 @@ public class InotifyEvent extends EventObject {
      * otherwise
      */
     public boolean isMovedTo() {
-        return (Event.isSet(Event.Moved_To, mask));
+        return (isSet(Moved_To, mask));
     }
 
     /**
@@ -321,7 +323,7 @@ public class InotifyEvent extends EventObject {
      * is set, {@code false} otherwise
      */
     public boolean isMoved() {
-        return (Event.isSet(Event.Moved, mask));
+        return (isSet(Moved, mask));
     }
 
     /**
@@ -332,7 +334,7 @@ public class InotifyEvent extends EventObject {
      * is set, {@code false} otherwise
      */
     public boolean isOpen() {
-        return (Event.isSet(Event.Open, mask));
+        return (isSet(Open, mask));
     }
 
     /**
@@ -355,7 +357,7 @@ public class InotifyEvent extends EventObject {
      * @see com.den_4.inotify_java.enums.EventModifier#Is_Directory
      */
     public boolean aboutDirectory() {
-        if (EventModifier.isSet(EventModifier.Is_Directory, mask))
+        if (EventModifier.isSet(Is_Directory, mask))
             return true;
         return false;
     }
@@ -368,7 +370,7 @@ public class InotifyEvent extends EventObject {
      * @see com.den_4.inotify_java.enums.EventModifier#Ignored
      */
     public boolean isIgnored() {
-        if (EventModifier.isSet(EventModifier.Ignored, mask))
+        if (EventModifier.isSet(Ignored, mask))
             return true;
         return false;
     }
@@ -382,7 +384,7 @@ public class InotifyEvent extends EventObject {
      * @see com.den_4.inotify_java.enums.EventModifier#Unmount
      */
     public boolean isUnmounted() {
-        if (EventModifier.isSet(EventModifier.Unmount, mask))
+        if (EventModifier.isSet(Unmount, mask))
             return true;
         return false;
     }
@@ -396,7 +398,7 @@ public class InotifyEvent extends EventObject {
      * @see com.den_4.inotify_java.enums.EventModifier#Event_Queue_Overflow
      */
     public boolean isOverflowed() {
-        if (EventModifier.isSet(EventModifier.Event_Queue_Overflow, mask))
+        if (EventModifier.isSet(Event_Queue_Overflow, mask))
             return true;
         return false;
     }
@@ -415,7 +417,7 @@ public class InotifyEvent extends EventObject {
         s.append(", mask=");
         s.append(mask);
 
-        Event[] evs = Event.maskToEvents(mask);
+        Event[] evs = maskToEvents(mask);
         if (evs.length != 0)
             s.append(", events [");
 
@@ -429,7 +431,7 @@ public class InotifyEvent extends EventObject {
         if (evs.length != 0)
             s.append("]");
 
-        EventModifier[] mods = EventModifier.maskToEventModifiers(mask);
+        EventModifier[] mods = maskToEventModifiers(mask);
         if (mods.length != 0)
             s.append(", mods [");
 

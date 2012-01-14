@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
+ * Copyright © 2009-2012 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,8 +21,6 @@
  */
 package com.den_4.inotify_java;
 
-import static com.den_4.inotify_java.enums.EventModifier.Event_Queue_Overflow;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
@@ -31,7 +29,6 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
 
 import com.den_4.inotify_java.enums.Event;
-import com.den_4.inotify_java.enums.EventModifier;
 import com.den_4.inotify_java.exceptions.InotifyException;
 
 /**
@@ -333,26 +330,39 @@ public class Watcher extends ConcurrentReader {
      */
     @Override
     void eventHandler(InotifyEvent e) {
-        if (EventModifier.isSet(Event_Queue_Overflow, e.getMask())) {
-            // TODO event queue overflow
+
+        BaseEvent be = e;
+        boolean overflow = false;
+        if (e.isOverflowed()) {
+            be = new EventQueueFull(fileDescriptor);
+            overflow = true;
         }
+
         if (e.getName() != null) {
-            if (pathName.charAt(pathName.length() - 1) == '/')
-                e.setContextualName(pathName + e.getName());
-            else
-                e.setContextualName(pathName + '/' + e.getName());
+            String name = e.getName();
+            if (pathName.charAt(pathName.length() - 1) == '/') {
+                e.setContextualName(pathName + name);
+            } else {
+                e.setContextualName(pathName + '/' + name);
+            }
         }
 
         switch (mode) {
         case LISTENER:
             for (InotifyEventListener l : listeners) {
-                l.filesystemEventOccurred(e);
+                if (overflow) {
+                    l.queueFull((EventQueueFull) be);
+                } else {
+                    l.filesystemEventOccurred(e);
+                }
             }
             return;
         case RUNNABLE:
         case BARRIER:
             try {
-                barrier.await();
+                if (!overflow) {
+                    barrier.await();
+                }
             } catch (InterruptedException ie) {
                 destroy();
                 final String msg = "watcher destroyed";
@@ -370,16 +380,24 @@ public class Watcher extends ConcurrentReader {
             }
             break;
         case LATCH:
-            latch.countDown();
+            if (!overflow) {
+                latch.countDown();
+            }
             break;
         case SEMAPHORE:
-            semaphore.release();
+            if (!overflow) {
+                semaphore.release();
+            }
             break;
         }
 
         if (mode != Mode.LISTENER && listeners != null) {
             for (InotifyEventListener l : listeners) {
-                l.filesystemEventOccurred(e);
+                if (overflow) {
+                    l.queueFull((EventQueueFull) be);
+                } else {
+                    l.filesystemEventOccurred(e);
+                }
             }
         }
     }

@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
+ * Copyright © 2009-2012 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,6 +26,7 @@ import static java.lang.System.currentTimeMillis;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -40,7 +41,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import com.den_4.inotify_java.enums.Event;
-import com.den_4.inotify_java.enums.EventModifier;
 import com.den_4.inotify_java.enums.WatchModifier;
 import com.den_4.inotify_java.exceptions.InotifyException;
 import com.den_4.inotify_java.exceptions.InvalidWatchDescriptorException;
@@ -99,7 +99,7 @@ public final class MonitorService extends NativeInotify {
     /**
      * The queue used for direct handoff by the servicing thread.
      */
-    LinkedBlockingQueue<InotifyEvent> queue;
+    LinkedBlockingQueue<BaseEvent> queue;
 
     /* Service statistics. */
     private int largestQueueSize;
@@ -297,10 +297,10 @@ public final class MonitorService extends NativeInotify {
      */
     private void threadInit() {
         consumer = new Thread(new QueueConsumer());
-        consumer.setName("MonitorService(" + getFileDescriptor()
+        consumer.setName("MonitorService(" + fileDescriptor
                 + ") queue consumer");
         producer = new Thread(new QueueProducer());
-        producer.setName("MonitorService(" + getFileDescriptor()
+        producer.setName("MonitorService(" + fileDescriptor
                 + ") queue producer");
     }
 
@@ -341,8 +341,10 @@ public final class MonitorService extends NativeInotify {
      * Returns the blocking queue backing the service.
      * 
      * @return Blocking queue containing inotify events
+     * @since 2.1 This queue can contain both {@link InotifyEvent} and
+     * {@link EventQueueFull} events
      */
-    public BlockingQueue<InotifyEvent> getQueue() {
+    public BlockingQueue<BaseEvent> getQueue() {
         return queue;
     }
 
@@ -461,8 +463,10 @@ public final class MonitorService extends NativeInotify {
      */
     @Override
     void eventHandler(InotifyEvent e) {
+
+        BaseEvent be = e;
         if (e.isOverflowed()) {
-            // TODO event queue overflow
+            be = new EventQueueFull(fileDescriptor);
         }
 
         long now = currentTimeMillis();
@@ -476,30 +480,17 @@ public final class MonitorService extends NativeInotify {
             lastArrivalTime = now;
         }
 
-        if (queue.offer(e)) {
+        if (queue.offer(be)) {
             serviced++;
             int size = queue.size();
             if (size > largestQueueSize) largestQueueSize = size;
             return;
         }
 
-        InotifyEvent ev = new InotifyEvent(e.getSource(),
-                EventModifier.Event_Queue_Overflow.value());
-        int wd = e.getSource();
-
-        Set<InotifyEventListener> queue = getWatchListenerValue(wd);
-        if (queue == null) return;
-
-        for (InotifyEventListener l : queue) {
-            long t1 = currentTimeMillis();
-            l.filesystemEventOccurred(ev);
-            long t2 = currentTimeMillis();
-            long delta = (t2 - t1);
-            if (minServiceTime == 0d || delta < minServiceTime)
-                minServiceTime = delta;
-            if (maxServiceTime == 0d || delta > maxServiceTime)
-                maxServiceTime = delta;
-        }
+        // Failing to offload an event to the internal queue
+        // causes an out-of-order event to be generated.
+        EventQueueFull eqf = new EventQueueFull(fileDescriptor, true);
+        sendQueueFull(eqf);
     }
 
     /**
@@ -700,6 +691,24 @@ public final class MonitorService extends NativeInotify {
         return add_watch(path, watchModifiersMask, eventMask);
     }
 
+    private synchronized void sendQueueFull(EventQueueFull e) {
+        Collection<Set<InotifyEventListener>> c = watchListenerMap.values();
+        if (c.size() == 0) return;
+
+        for (final Set<InotifyEventListener> set : c) {
+            for (final InotifyEventListener entry : set) {
+                long t1 = currentTimeMillis();
+                entry.queueFull(e);
+                long t2 = currentTimeMillis();
+                long delta = (t2 - t1);
+                if (minServiceTime == 0d || delta < minServiceTime)
+                    minServiceTime = delta;
+                if (maxServiceTime == 0d || delta > maxServiceTime)
+                    maxServiceTime = delta;
+            }
+        }
+    }
+
     /**
      * Private delegate method for adding watches.
      * 
@@ -812,41 +821,55 @@ public final class MonitorService extends NativeInotify {
         @Override
         public void run() {
             while (isActive()) {
+                BaseEvent be;
                 try {
-                    InotifyEvent e = queue.take();
-                    String path = null;
-                    if (e.getName() != null) {
-                        path = getWatchPathValue(e.getSource());
-                        if (path != null) {
-                            if (path.charAt(path.length() - 1) == '/')
-                                e.setContextualName(path.concat(e.getName()));
-                            else
-                                e.setContextualName(path.concat("/").concat(
-                                        e.getName()));
-                        }
-                    }
-
-                    int wd = e.getSource();
-
-                    Set<InotifyEventListener> queue = getWatchListenerValue(wd);
-                    if (queue != null) {
-                        for (InotifyEventListener l : queue) {
-                            long t1 = currentTimeMillis();
-                            l.filesystemEventOccurred(e);
-                            long t2 = currentTimeMillis();
-                            long delta = (t2 - t1);
-                            if (minServiceTime == 0d || delta < minServiceTime)
-                                minServiceTime = delta;
-                            if (maxServiceTime == 0d || delta > maxServiceTime)
-                                maxServiceTime = delta;
-                        }
-                    }
-
-                    if (e.isIgnored()) {
-                        purgewatch(wd, path);
-                    }
+                    be = queue.take();
                 } catch (InterruptedException e) {
                     // Keep going.
+                    continue;
+                }
+
+                if (be instanceof EventQueueFull) {
+                    EventQueueFull eqf = (EventQueueFull) be;
+                    sendQueueFull(eqf);
+                    continue;
+                }
+
+                InotifyEvent e = (InotifyEvent) be;
+
+                String path = null;
+                if (e.getName() != null) {
+                    path = getWatchPathValue(e.getSource());
+                    if (path != null) {
+                        String name = e.getName();
+                        if (path.charAt(path.length() - 1) == '/')
+                            e.setContextualName(path.concat(name));
+                        else {
+                            path = path.concat("/");
+                            path = path.concat(name);
+                            e.setContextualName(path);
+                        }
+                    }
+                }
+
+                int wd = e.getSource();
+
+                Set<InotifyEventListener> queue = getWatchListenerValue(wd);
+                if (queue != null) {
+                    for (InotifyEventListener l : queue) {
+                        long t1 = currentTimeMillis();
+                        l.filesystemEventOccurred(e);
+                        long t2 = currentTimeMillis();
+                        long delta = (t2 - t1);
+                        if (minServiceTime == 0d || delta < minServiceTime)
+                            minServiceTime = delta;
+                        if (maxServiceTime == 0d || delta > maxServiceTime)
+                            maxServiceTime = delta;
+                    }
+                }
+
+                if (e.isIgnored()) {
+                    purgewatch(wd, path);
                 }
             }
         }

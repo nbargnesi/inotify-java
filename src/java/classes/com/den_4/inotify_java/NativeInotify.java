@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
+ * Copyright © 2009-2012 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -132,7 +132,8 @@ public abstract class NativeInotify {
     public static void loadLibrary(String filename) throws UnsatisfiedLinkError {
         lock.lock();
         try {
-            if (filename == null) loadLibrary("inotify-java"); //$NON-NLS-1$
+            if (filename == null) 
+                System.loadLibrary("inotify-java"); //$NON-NLS-1$
             else load(filename);
             nativeLibLoaded = true;
         } finally {

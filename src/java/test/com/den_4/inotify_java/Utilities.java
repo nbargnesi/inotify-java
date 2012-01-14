@@ -1,5 +1,5 @@
 /**
- * Copyright © 2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
+ * Copyright © 2011-2012 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,7 +26,6 @@ import static java.lang.System.getProperty;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.junit.Test;
 import java.io.File;
 
 /**
@@ -40,7 +39,6 @@ public final class Utilities {
     /**
      * Loads the native library for tests that require it.
      */
-    @Test
     public static void loadLibrary() {
         if (NativeInotify.isLibraryLoaded()) return;
         String cwd = getProperty("user.dir");
@@ -55,7 +53,6 @@ public final class Utilities {
         NativeInotify.loadLibrary(library);
         assertTrue(NativeInotify.isLibraryLoaded());
     }
-    
-    
 
 }
+

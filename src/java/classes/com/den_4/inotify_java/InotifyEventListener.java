@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009-2011 Nick Bargnesi <nick@den-4.com>. All rights reserved.
+ * Copyright © 2009-2012 Nick Bargnesi <nick@den-4.com>. All rights reserved.
  *
  * inotify-java is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -40,6 +40,10 @@ public interface InotifyEventListener {
 
     /**
      * Invoked when an inotify event queue has reached capacity.
+     * <p>
+     * This indicates the processing of both {@link InotifyEvent} and
+     * {@link EventQueueFull} events is slow enough that events are backing up.
+     * </p>
      * 
      * @param e EventQueueFull
      */

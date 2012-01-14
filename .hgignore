@@ -2,7 +2,7 @@ Makefile
 config.h
 config.log
 config.status
-inotify-java-2.0.pc
+inotify-java-2.1.pc
 src/Makefile
 src/cpp/Makefile
 src/cpp/jni-header.h

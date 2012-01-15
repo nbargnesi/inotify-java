@@ -1,3 +1,8 @@
+Version 2.1
+
+* Switched project hosting to Bitbucket
+* Replaced native call to select with epoll (slight speed improvement)
+
 Version 2.0.3
 
 # Delayed starting reader thread in ConcurrentReader (requires subclasses to

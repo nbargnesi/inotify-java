@@ -286,7 +286,7 @@ JNIEXPORT void JNICALL Java_com_den_14_inotify_1java_NativeInotify_read(
     jint in_fd = (e)->CallIntMethod(j, native_inotify_getFileDescriptor);
     jint pip_fd = (e)->CallIntMethod(j, native_inotify_getPipeRead);
     jthrowable thrwbl;
-    char *buf;
+    char *buf = NULL;
     int nfds;
 
     // XXX any argument > 0 to epoll_create
@@ -411,6 +411,7 @@ JNIEXPORT void JNICALL Java_com_den_14_inotify_1java_NativeInotify_read(
             /* Calculate the location of the next event. */
             offset += evSize;
         }
+        free(buf);
     }
 
 EXCEPTION_OCCURRED:

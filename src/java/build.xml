@@ -4,18 +4,22 @@
 
     <property name='version' value='2.1'/>
     <property name='srcver' value='1.7'/>
+    <property name='build.path' value='build'/>
 
     <target name='compile'
         description='compiles the source'>
+        <mkdir dir='${build.path}'/>
         <javac srcdir='classes'
             includeantruntime='false'
             source='${srcver}'
             debug='on'
+            destdir='${build.path}'
             debuglevel='lines,vars,source'/>
         <javac srcdir='test'
             includeantruntime='false'
             source='${srcver}'
             debug='on'
+            destdir='${build.path}'
             debuglevel='lines,vars,source'
             classpath='classes:../../lib/junit4-4.8.2.jar'/>
     </target>
@@ -48,6 +52,7 @@
             <fileset dir='test' includes='**/*.class'/>
         </delete>
         <delete dir='reports'/>
+        <delete dir='${build.path}'/>
     </target>
 
     <target name='test' depends='compile'
@@ -56,7 +61,7 @@
         <junit printsummary='withOutAndErr' haltonfailure='yes'>
             <formatter type='xml' usefile='yes'/>
             <classpath>
-                <pathelement path='classes'/>
+                <pathelement path='${build.path}'/>
                 <pathelement path='test'/>
                 <pathelement path='../../lib/junit4-4.8.2.jar'/>
             </classpath>

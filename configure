@@ -4605,7 +4605,7 @@ echo "$JAVA_VERSION"
 case $JAVA_VERSION in
     1.7.*)
     ;;
-	1.8.*)
+    1.8.*)
     ;;
     *)
     as_fn_error $? "expected Java 7 or 8, found ${JAVA_VERSION}" "$LINENO" 5

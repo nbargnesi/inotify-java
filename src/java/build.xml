@@ -27,7 +27,7 @@
     <target name='build' depends='compile'
         description='creates a jar'>
         <!-- TODO basedir should be build.path -->
-        <jar destfile='${ant.project.name}-${version}.jar' basedir='classes'>
+        <jar destfile='${ant.project.name}-${version}.jar' basedir='${build.path}'>
             <manifest>
                 <attribute
                     name="Main-Class"
